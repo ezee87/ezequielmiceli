@@ -1,0 +1,135 @@
+.body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(16px, 2.5vw, 32px);
+  row-gap: clamp(48px, 7vw, 80px);
+  margin-top: clamp(56px, 8vw, 112px);
+}
+
+.text {
+  grid-column: 1 / span 7;
+  display: grid;
+  gap: 1.4em;
+  align-content: start;
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.paragraph {
+  max-width: 62ch;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.highlights {
+  grid-column: 9 / span 4;
+  display: grid;
+  align-content: start;
+}
+
+.highlight {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.highlight:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.highlight dt {
+  margin-bottom: 6px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.highlight dd {
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.observations {
+  margin-top: clamp(64px, 9vw, 120px);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(16px, 2.5vw, 32px);
+  row-gap: 28px;
+}
+
+.obsTitle {
+  grid-column: 1 / span 3;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.obsList {
+  grid-column: 4 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.obsItem {
+  display: grid;
+  gap: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-strong);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.obsNumber {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.disclaimer {
+  max-width: 64ch;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 1023.98px) {
+  .text {
+    grid-column: 1 / -1;
+  }
+
+  .highlights {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+  }
+
+  .obsTitle {
+    grid-column: 1 / -1;
+  }
+
+  .obsList {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 719.98px) {
+  .highlights,
+  .obsList {
+    grid-template-columns: 1fr;
+  }
+}

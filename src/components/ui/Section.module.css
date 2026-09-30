@@ -1,0 +1,16 @@
+.section {
+  position: relative;
+  padding-block: var(--section-pad);
+  padding-inline: var(--gutter);
+}
+
+.inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+@media print {
+  .section {
+    padding-block: 28px;
+  }
+}
