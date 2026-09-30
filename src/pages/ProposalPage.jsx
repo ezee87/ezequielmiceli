@@ -60,7 +60,7 @@ function Proposal({ data }) {
         <ProcessSection data={data} />
         <ScopeSection data={data} />
         <PricingSection data={data} />
-        <DarkChapter last>
+        <DarkChapter>
           <FinalCTA data={data} />
         </DarkChapter>
       </main>

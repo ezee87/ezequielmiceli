@@ -1,6 +1,6 @@
 .layout {
   display: grid;
-  gap: clamp(48px, 7vw, 80px);
+  gap: var(--head-gap);
 }
 
 .stages {
@@ -28,16 +28,17 @@
 }
 
 .stage {
+  --sp: clamp(14px, 1.8vw, 22px);
   position: relative;
   display: grid;
-  grid-template-columns: clamp(56px, 8vw, 96px) minmax(0, 1fr);
-  gap: 8px 16px;
-  padding: clamp(28px, 4vw, 44px) 0;
+  grid-template-columns: clamp(44px, 6vw, 72px) minmax(0, 1fr);
+  gap: 4px 16px;
+  padding: var(--sp) 0;
   border-bottom: 1px solid var(--line);
 }
 
 .stage:first-of-type {
-  padding-top: 12px;
+  padding-top: 8px;
 }
 
 .stage:last-child {
@@ -47,7 +48,7 @@
 .stage::before {
   content: '';
   position: absolute;
-  top: calc(clamp(28px, 4vw, 44px) + 0.75em);
+  top: calc(var(--sp) + 0.75em);
   left: calc(-1 * clamp(28px, 4vw, 48px) - 3px);
   width: 7px;
   height: 7px;
@@ -56,12 +57,12 @@
 }
 
 .stage:first-of-type::before {
-  top: 12px;
+  top: 8px;
 }
 
 .number {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem);
   line-height: 1;
   color: var(--accent);
   font-variant-numeric: tabular-nums;
@@ -69,7 +70,7 @@
 
 .content {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .name {
@@ -81,6 +82,7 @@
 
 .summary {
   max-width: 52ch;
+  font-size: var(--fs-small);
   color: var(--ink-soft);
   text-wrap: pretty;
 }
@@ -88,8 +90,8 @@
 .items {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 0;
-  margin-top: 6px;
+  gap: 4px 0;
+  margin-top: 2px;
   font-size: var(--fs-small);
 }
 
@@ -108,6 +110,6 @@
 
   .side {
     position: sticky;
-    top: 112px;
+    top: 88px;
   }
 }

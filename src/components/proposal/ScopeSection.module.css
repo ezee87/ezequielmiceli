@@ -1,12 +1,12 @@
 .areas {
-  margin-top: clamp(56px, 8vw, 104px);
+  margin-top: var(--head-gap);
   display: grid;
 }
 
 .area {
   display: grid;
-  gap: 20px clamp(24px, 4vw, 64px);
-  padding: clamp(28px, 4vw, 44px) 0;
+  gap: 12px clamp(24px, 4vw, 64px);
+  padding: clamp(16px, 2vw, 24px) 0;
   border-top: 1px solid var(--line-strong);
 }
 
@@ -23,12 +23,13 @@
 
 .items {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .items li {
   position: relative;
   padding-left: 20px;
+  font-size: var(--fs-small);
   line-height: 1.5;
 }
 

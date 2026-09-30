@@ -12,7 +12,7 @@ export default function ConversionJourney({ data }) {
     <Section
       id="recorrido"
       labelledBy="recorrido-title"
-      style={{ paddingTop: 'calc(var(--section-pad) * 1.1)', paddingBottom: 'calc(var(--section-pad) * 0.8)' }}
+      style={{ paddingTop: 'calc(var(--section-pad) * 1.25)', paddingBottom: 'calc(var(--section-pad) * 0.6)' }}
     >
       <SectionHeader id="recorrido-title" eyebrow={journey.eyebrow} title={journey.title} lead={journey.lead} />
 

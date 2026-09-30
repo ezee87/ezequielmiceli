@@ -15,6 +15,8 @@ export default function OpportunitySection({ data }) {
   const board = useRef(null);
 
   const counterpartOf = (step) => observed.steps.find((o) => o.id === step.id || o.id === step.replaces);
+  const newIndexes = proposed.steps.map((s, i) => (counterpartOf(s) ? -1 : i)).filter((i) => i >= 0);
+  const gap = newIndexes.length ? { start: newIndexes[0] + 1, count: newIndexes.length } : null;
 
   useGSAP(
     () => {
@@ -49,6 +51,7 @@ export default function OpportunitySection({ data }) {
         );
 
         let t = 1;
+        let gapPlaced = false;
         propEls.forEach((el) => {
           const fromId = el.dataset.from;
           const source = fromId ? obsEls.find((o) => o.dataset.id === fromId) : null;
@@ -69,6 +72,10 @@ export default function OpportunitySection({ data }) {
               .to(source.querySelector('[data-label]'), { opacity: 0.28, duration: 1 }, t + 0.5);
             t += 0.55;
           } else {
+            if (!gapPlaced) {
+              tl.fromTo(q('[data-gap]'), { opacity: 0 }, { opacity: 1, duration: 1.4 }, t + 1.5);
+              gapPlaced = true;
+            }
             tl.fromTo(
               el,
               { y: 26 },
@@ -128,7 +135,23 @@ export default function OpportunitySection({ data }) {
             <span>{proposed.caption}</span>
             {proposed.label}
           </p>
-          <ol className={styles.steps} style={{ '--n': proposed.steps.length }}>
+          <ol
+            className={`${styles.steps} ${gap ? styles.hasGap : ''}`}
+            style={{
+              '--n': proposed.steps.length,
+              '--cols': proposed.steps.map((s) => (counterpartOf(s) ? 'minmax(0,1fr)' : 'minmax(0,1.5fr)')).join(' '),
+            }}
+          >
+            {gap && (
+              <li
+                className={styles.gap}
+                data-gap
+                aria-hidden="true"
+                style={{ gridColumn: `${gap.start} / span ${gap.count}` }}
+              >
+                {proposed.gapLabel ?? 'Etapas que hoy faltan'}
+              </li>
+            )}
             {proposed.steps.map((s) => renderStep(s, 'proposed'))}
           </ol>
         </div>

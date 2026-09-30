@@ -4,7 +4,7 @@
   --ink-base: rgb(22, 22, 22);
   --olive: rgb(101, 112, 91);
 
-  /* Atmosphere-controlled tokens (M10 interpolates these on <html>) */
+  /* Tokens contextuales: los capítulos oscuros los redefinen localmente */
   --bg: rgb(244, 242, 237);
   --ink: rgb(22, 22, 22);
   --ink-soft: rgb(85, 85, 79);
@@ -20,20 +20,20 @@
   --fs-label: 0.75rem;
   --fs-small: 0.875rem;
   --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-  --fs-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
-  --fs-h3: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
-  --fs-h2: clamp(2.5rem, 1.6rem + 4.4vw, 5.75rem);
-  --fs-display: clamp(3.5rem, 1.4rem + 9.6vw, 10.5rem);
+  --fs-lead: clamp(1.125rem, 1rem + 0.55vw, 1.4375rem);
+  --fs-h3: clamp(1.3125rem, 1.1rem + 0.8vw, 1.75rem);
+  --fs-h2: clamp(2rem, 1.3rem + 3.3vw, 4.25rem);
 
   /* Layout */
   --gutter: clamp(20px, 5vw, 72px);
   --max: 1440px;
-  --section-pad: clamp(88px, 13vw, 200px);
+  --section-pad: clamp(44px, 5vw, 76px);
+  --head-gap: clamp(28px, 3.4vw, 48px);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Capítulos oscuros (M10: la transición vive en bandas de gradiente CSS en los bordes del capítulo) */
+/* Capítulos oscuros: corte directo de superficie, sin degradados */
 [data-atmosphere='dark'],
 [data-theme='dark'] {
   --bg: var(--dark);

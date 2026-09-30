@@ -62,7 +62,13 @@ export default function ProposalHero({ data }) {
   );
 
   return (
-    <section className={styles.hero} id="inicio" ref={root} aria-labelledby="hero-title">
+    <section
+      className={styles.hero}
+      id="inicio"
+      ref={root}
+      aria-labelledby="hero-title"
+      style={{ '--lines': lines.length }}
+    >
       <div className={styles.top} data-meta>
         <p className={styles.eyebrow}>{intro.eyebrow}</p>
         <p className={styles.disciplines} aria-label="Disciplinas">

@@ -36,10 +36,15 @@ export default function UnderstandingSection({ data }) {
 
       {observations.length > 0 && (
         <div className={styles.observations}>
-          <h3 className={styles.obsTitle}>Lo que observé</h3>
+          <div className={styles.obsHead}>
+            <h3 className={styles.obsTitle}>Lo que observé</h3>
+            <p className={styles.obsKicker}>
+              {pad(observations.length)} hallazgos que orientan esta propuesta
+            </p>
+          </div>
           <ol className={styles.obsList}>
             {observations.map((o, i) => (
-              <Fade as="li" key={i} className={styles.obsItem} delay={i * 0.06}>
+              <Fade as="li" key={i} className={styles.obsItem} delay={i * 0.14} y={22}>
                 <span className={styles.obsNumber}>{pad(i + 1)}</span>
                 <p>{o}</p>
               </Fade>

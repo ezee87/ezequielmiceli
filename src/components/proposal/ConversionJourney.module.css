@@ -1,5 +1,5 @@
 .mapWrap {
-  margin-top: clamp(72px, 10vw, 136px);
+  margin-top: var(--head-gap);
 }
 
 .note {
@@ -8,7 +8,7 @@
   gap: 8px 28px;
   align-items: baseline;
   max-width: 820px;
-  margin-top: clamp(24px, 4vw, 56px);
+  margin-top: clamp(16px, 2.5vw, 32px);
   padding-top: 20px;
   border-top: 1px solid var(--line-strong);
 }

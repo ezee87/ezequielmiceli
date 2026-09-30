@@ -95,7 +95,7 @@ export default function LandingArchitecture({ data }) {
   );
 
   return (
-    <Section id="estructura" labelledBy="estructura-title" style={{ paddingTop: 'calc(var(--section-pad) * 0.4)' }}>
+    <Section id="estructura" labelledBy="estructura-title" style={{ paddingTop: 'calc(var(--section-pad) * 0.6)' }}>
       <span className={styles.bridge} ref={bridge} aria-hidden="true" />
       <SectionHeader id="estructura-title" eyebrow={eyebrow} title={title} lead={lead} />
 

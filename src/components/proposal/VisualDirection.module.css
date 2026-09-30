@@ -1,16 +1,16 @@
 .showcase {
-  margin-top: clamp(56px, 8vw, 112px);
+  margin-top: var(--head-gap);
 }
 
 .pin {
   display: grid;
-  gap: clamp(40px, 6vw, 64px);
+  gap: clamp(28px, 4vw, 40px);
 }
 
 /* Texto de referencia */
 .caption {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   align-content: start;
   max-width: 46ch;
 }
@@ -50,7 +50,7 @@
 }
 
 .principles > div {
-  padding: 14px 0;
+  padding: 10px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -162,7 +162,7 @@
 
   /* Materialización activa (JS + movimiento permitido) */
   .showcase[data-armed] {
-    height: 250vh;
+    height: 175vh;
   }
 
   .showcase[data-armed] .pin {

@@ -1,10 +1,12 @@
 .hero {
+  --hero-size: min(11vw, calc(38vh / var(--lines, 2)), 10.5rem);
   position: relative;
-  min-height: 100svh;
+  height: 100svh;
+  min-height: 540px;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: clamp(24px, 4vw, 56px);
-  padding: clamp(84px, 11vh, 120px) var(--gutter) clamp(28px, 4vh, 48px);
+  gap: clamp(12px, 2.4vh, 28px);
+  padding: clamp(68px, 9vh, 88px) var(--gutter) clamp(20px, 3vh, 36px);
   max-width: var(--max);
   margin: 0 auto;
   overflow-x: clip;
@@ -47,21 +49,21 @@
   display: block;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(3.25rem, 14vw, 13rem);
+  font-size: var(--hero-size);
   line-height: 0.94;
   letter-spacing: -0.035em;
 }
 
 .pre {
   display: block;
-  height: 3rem;
+  height: 2.5rem;
   margin-bottom: 0;
   font-family: var(--font-sans);
-  font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.25rem);
+  font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.125rem);
   font-style: normal;
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 3rem;
+  line-height: 2.5rem;
   color: var(--ink-soft);
 }
 
@@ -79,14 +81,14 @@
 .echo {
   position: absolute;
   inset: 0;
-  padding-top: 3rem;
+  padding-top: 2.5rem;
   font-family: var(--font-display);
-  font-size: clamp(3.25rem, 14vw, 13rem);
+  font-size: var(--hero-size);
   line-height: 0.94;
   letter-spacing: -0.035em;
   color: transparent;
   -webkit-text-stroke: 1px var(--line-strong);
-  transform: translate3d(4.2vw, 3vw, -140px);
+  transform: translate3d(2.4vw, 1.8vw, -140px);
   pointer-events: none;
   user-select: none;
 }
@@ -119,20 +121,20 @@
 .bottom {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 24px 48px;
+  gap: 16px 48px;
   align-items: end;
-  padding-top: 20px;
+  padding-top: clamp(12px, 2vh, 18px);
   border-top: 1px solid var(--line);
 }
 
 .meta {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr;
-  gap: 20px 40px;
+  gap: 16px 40px;
 }
 
 .meta dt {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   font-size: var(--fs-label);
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -142,18 +144,24 @@
 
 .meta dd {
   margin: 0;
-  font-size: var(--fs-body);
+  font-size: var(--fs-small);
   line-height: 1.35;
   text-wrap: balance;
 }
 
 .role {
   display: block;
-  font-size: var(--fs-small);
+  font-size: 0.8125rem;
   color: var(--ink-soft);
 }
 
 @media (max-width: 899.98px) {
+  .hero {
+    --hero-size: clamp(3rem, 17vw, 5.5rem);
+    height: auto;
+    min-height: 100svh;
+  }
+
   .bottom {
     grid-template-columns: 1fr;
   }
@@ -183,6 +191,7 @@
 @media print {
   .hero {
     min-height: auto;
+    height: auto;
     padding-top: 0;
   }
 

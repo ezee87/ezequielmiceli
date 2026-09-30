@@ -1,12 +1,12 @@
 .board {
   display: grid;
-  gap: clamp(56px, 8vw, 104px);
-  margin-top: clamp(56px, 8vw, 112px);
+  gap: clamp(32px, 4.5vw, 56px);
+  margin-top: var(--head-gap);
 }
 
 .row {
   display: grid;
-  gap: 28px;
+  gap: 16px;
 }
 
 .rowLabel {
@@ -34,13 +34,36 @@
 
 .steps {
   display: grid;
-  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  grid-template-columns: var(--cols, repeat(var(--n), minmax(0, 1fr)));
+}
+
+.hasGap > .step {
+  grid-row: 2;
+}
+
+.gap {
+  grid-row: 1;
+  margin: 0 16px 14px 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.gap::after {
+  content: '';
+  display: block;
+  height: 7px;
+  margin-top: 6px;
+  border: 1px solid var(--accent);
+  border-bottom: 0;
 }
 
 .step {
   position: relative;
-  padding-top: 26px;
-  padding-right: 12px;
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 .rail {
@@ -70,10 +93,11 @@
 .label {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(1.3rem, 0.9rem + 1.3vw, 2rem);
+  font-size: clamp(1.1rem, 0.8rem + 0.95vw, 1.625rem);
   line-height: 1.08;
   letter-spacing: -0.01em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .step[data-kind='new'] .label {
@@ -83,7 +107,7 @@
 
 .insight {
   max-width: 34ch;
-  margin-top: clamp(56px, 8vw, 104px);
+  margin-top: clamp(32px, 4.5vw, 56px);
   margin-left: auto;
   font-family: var(--font-display);
   font-size: var(--fs-h3);
@@ -99,7 +123,26 @@
   }
 
   .step {
-    padding: 0 0 22px 24px;
+    padding: 0 0 16px 24px;
+  }
+
+  .gap {
+    display: none;
+  }
+
+  .hasGap > .step {
+    grid-row: auto;
+  }
+  .step[data-kind='new'] .label::after {
+    content: 'Nuevo';
+    margin-left: 10px;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    vertical-align: middle;
   }
 
   .step:last-child {

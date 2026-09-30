@@ -2,34 +2,3 @@
   position: relative;
   background: var(--dark);
 }
-
-.chapter::before,
-.chapter::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: var(--section-pad);
-  pointer-events: none;
-}
-
-.chapter::before {
-  bottom: 100%;
-  background: linear-gradient(to bottom, rgba(20, 21, 18, 0), var(--dark));
-}
-
-.chapter::after {
-  top: 100%;
-  background: linear-gradient(to bottom, var(--dark), rgba(20, 21, 18, 0));
-}
-
-.last::after {
-  display: none;
-}
-
-@media print {
-  .chapter::before,
-  .chapter::after {
-    display: none;
-  }
-}
