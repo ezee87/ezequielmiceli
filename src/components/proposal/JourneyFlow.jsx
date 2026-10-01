@@ -11,7 +11,7 @@ function Chip({ node }) {
 
 function Item({ node, type = 'step', line = true }) {
   return (
-    <li className={styles.item} data-flow data-type={type}>
+    <li className={styles.item} data-flow data-type={type} data-step={node.id}>
       <span className={styles.dot} aria-hidden="true" />
       {line && <span className={styles.line} data-line aria-hidden="true" />}
       {node.kind && <p className={styles.kind}>{node.kind}</p>}
@@ -34,7 +34,7 @@ function Merge({ label }) {
   );
 }
 
-function Paths({ step }) {
+function Paths({ step, expanded = false }) {
   const [open, setOpen] = useState(null);
   const mounted = useRef(false);
 
@@ -54,27 +54,37 @@ function Paths({ step }) {
       <ul className={styles.branches}>
         {step.branches.map((lane, i) => {
           const letter = branchLabel(i);
-          const isOpen = open === lane.id;
+          const isOpen = expanded || open === lane.id;
           const id = `${step.id}-${lane.id}`;
+          if (lane.labelOnly) {
+            return <li className={styles.branch} key={lane.id} data-flow data-open="">
+              <div className={styles.opt}>
+                <span className={styles.letter}>{letter}</span>
+                <span className={styles.optLabel}>{lane.steps[0]?.label ?? lane.label}</span>
+              </div>
+            </li>;
+          }
+          const optionContent = <>
+            <span className={styles.letter}>{letter}</span>
+            <span className={styles.optText}>
+              <span className={styles.kind}>{lane.audience ?? `Camino ${letter}`}</span>
+              <span className={styles.optLabel}>{lane.label}</span>
+            </span>
+            {!expanded && <svg className={styles.chev} viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+              <path d="M2 4.5 L6 8.5 L10 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            </svg>}
+          </>;
           return (
             <li className={styles.branch} key={lane.id} data-flow data-open={isOpen ? '' : undefined}>
-              <button
-                type="button"
-                className={styles.opt}
-                id={`opt-${id}`}
-                aria-expanded={isOpen}
-                aria-controls={`panel-${id}`}
-                onClick={() => setOpen(isOpen ? null : lane.id)}
-              >
-                <span className={styles.letter}>{letter}</span>
-                <span className={styles.optText}>
-                  <span className={styles.kind}>{lane.audience ?? `Camino ${letter}`}</span>
-                  <span className={styles.optLabel}>{lane.label}</span>
-                </span>
-                <svg className={styles.chev} viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-                  <path d="M2 4.5 L6 8.5 L10 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-              </button>
+              {expanded ? <div className={styles.opt} id={`opt-${id}`}>{optionContent}</div> : (
+                <button
+                  type="button" className={styles.opt} id={`opt-${id}`}
+                  aria-expanded={isOpen} aria-controls={`panel-${id}`}
+                  onClick={() => setOpen(isOpen ? null : lane.id)}
+                >
+                  {optionContent}
+                </button>
+              )}
 
               <div
                 className={styles.panel}
@@ -82,7 +92,7 @@ function Paths({ step }) {
                 role="region"
                 aria-labelledby={`opt-${id}`}
                 data-open={isOpen ? '' : undefined}
-                inert={!isOpen}
+                inert={!isOpen ? true : undefined}
               >
                 <div className={styles.panelInner}>
                   <div className={styles.path} data-lane={i}>
@@ -140,13 +150,13 @@ export default function JourneyFlow({ journey }) {
   );
 
   return (
-    <ol className={styles.flow} ref={root} data-compact={journey.compact ? '' : undefined}>
-      {steps.map((step) =>
+    <ol className={styles.flow} ref={root} data-compact={journey.compact ? '' : undefined} data-deep-entry={journey.deepEntry ? '' : undefined} data-mobile-relaxed={journey.mobileRelaxed ? '' : undefined}>
+      {steps.map((step, index) =>
         step.branches ? (
           <Fragment key={step.id}>
             <Item node={step} type="decision" />
-            <Paths step={step} />
-            <Merge label={mergeLabel} />
+            <Paths step={step} expanded={journey.mobileBranches === 'expanded'} />
+            {journey.showMergeLabels !== false && index < steps.length - 1 && <Merge label={mergeLabel} />}
           </Fragment>
         ) : (
           <Item key={step.id} node={step} type={step.final ? 'final' : 'step'} line={!step.final} />

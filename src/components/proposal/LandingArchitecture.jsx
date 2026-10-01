@@ -110,6 +110,7 @@ export default function LandingArchitecture({ data }) {
                   <h3 className={styles.name}>{s.name}</h3>
                   <p className={styles.objective}>{s.objective}</p>
                   {s.description && <p className={styles.description}>{s.description}</p>}
+                  {s.callout && <p className={styles.callout}>{s.callout}</p>}
 
                   {s.subpaths?.length > 0 && (
                     <ul className={styles.subpaths}>
@@ -186,6 +187,7 @@ export default function LandingArchitecture({ data }) {
       ) : (
         <ArchitectureFlow sections={sections} />
       )}
+      {data.architecture.note && <p className={styles.architectureNote}>{data.architecture.note}</p>}
     </Section>
   );
 }

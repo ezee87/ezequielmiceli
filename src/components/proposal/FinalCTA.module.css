@@ -45,6 +45,37 @@
   text-wrap: pretty;
 }
 
+.section[data-compact] {
+  padding-top: var(--section-pad);
+  padding-bottom: calc(var(--section-pad) * 0.45);
+}
+
+.section[data-compact] .wrap {
+  min-height: min(44vh, 390px);
+}
+
+.section[data-compact] .title {
+  max-width: 14ch;
+  font-size: clamp(2.15rem, 1.45rem + 2.8vw, 4.15rem);
+}
+
+.section[data-compact] .text {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+
+.text p + p {
+  margin-top: 0.75em;
+}
+
+.signature {
+  display: grid;
+  margin-top: 8px;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
 .action {
   margin-top: 4px;
 }

@@ -55,6 +55,15 @@
   text-wrap: pretty;
 }
 
+.callout {
+  max-width: 52ch;
+  margin-top: 6px;
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
 .subpaths {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -109,6 +118,16 @@
 
 .stageWrap {
   display: none;
+}
+
+.architectureNote {
+  max-width: 68ch;
+  margin-top: clamp(28px, 4vw, 44px);
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--ink-soft);
 }
 
 /* Escenario 3D (solo desktop) */

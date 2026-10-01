@@ -115,8 +115,355 @@
   text-wrap: pretty;
 }
 
+.branchingBoard + .insight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.5fr);
+  gap: clamp(20px, 7vw, 112px);
+  max-width: none;
+  margin-left: 0;
+  padding-top: clamp(24px, 3vw, 36px);
+  border-top: 1px solid var(--line-strong);
+}
+
+.branchingBoard + .insight h3,
+.branchingBoard + .insight p {
+  grid-column: 2;
+}
+
+.insight h3 {
+  font: inherit;
+}
+
+.insight h3 + p {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  white-space: pre-line;
+}
+
+.branchingBoard + .insightLeft {
+  display: block;
+  max-width: none;
+  margin-left: 0;
+}
+
+.insightLeft h3 {
+  max-width: 38ch;
+  white-space: pre-line;
+}
+
+.insightLeft h3 + p {
+  max-width: 68ch;
+}
+
+.branchingBoard {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.5fr);
+  gap: clamp(40px, 7vw, 112px);
+  margin-top: var(--head-gap);
+  align-items: start;
+}
+
+.currentPath,
+.proposedPath {
+  min-width: 0;
+}
+
+.pathHeading {
+  margin-bottom: 24px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.proposedHeading {
+  color: var(--accent);
+}
+
+.verticalSequence {
+  display: grid;
+}
+
+.verticalSequence li {
+  position: relative;
+  min-width: 0;
+  padding: 0 0 28px 30px;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.nodeLabel {
+  position: relative;
+  z-index: 1;
+}
+
+.verticalSequence li::before {
+  content: '';
+  position: absolute;
+  top: 0.42em;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.verticalSequence li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: calc(0.42em + 10px);
+  bottom: 0;
+  left: 4.5px;
+  width: 1px;
+  background: var(--accent);
+}
+
+.pathNote {
+  margin-top: 2px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.branchDecision {
+  position: relative;
+  margin: 14px auto 42px;
+  padding: 15px 20px;
+  border: 1px solid var(--accent);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-style: italic;
+}
+
+.branchDecision::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  width: 1px;
+  height: 30px;
+  background: var(--accent);
+}
+
+.opportunityBranches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(30px, 4vw, 56px);
+}
+
+.opportunityBranch {
+  position: relative;
+  padding-top: 22px;
+  border-top: 1px solid var(--accent);
+}
+
+.opportunityBranch::before {
+  content: '';
+  position: absolute;
+  top: -31px;
+  left: 50%;
+  width: 1px;
+  height: 30px;
+  background: var(--accent);
+}
+
+.branchLabel {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.branchAudience {
+  margin: 3px 0 18px;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+}
+
+.branchSequence li {
+  font-size: clamp(1.05rem, 0.94rem + 0.4vw, 1.3rem);
+}
+
+/* Variante editorial para recorridos bifurcados que necesitan leerse sobre un solo eje. */
+.branchingBoard[data-layout='split-centered'] .proposedHeading {
+  text-align: center;
+}
+
+.branchingBoard[data-layout='split-centered'] .proposedPath > .verticalSequence {
+  justify-items: center;
+}
+
+.branchingBoard[data-layout='split-centered'] .proposedPath > .verticalSequence li,
+.branchingBoard[data-layout='split-centered'] .branchSequence li {
+  width: min(100%, 34rem);
+  padding: 30px 0 34px;
+  text-align: center;
+}
+
+.branchingBoard[data-layout='split-centered'] .proposedPath > .verticalSequence li + li {
+  margin-top: -38px;
+  padding-top: 18px;
+}
+
+.branchingBoard[data-layout='split-centered'] .proposedPath > .verticalSequence li::before,
+.branchingBoard[data-layout='split-centered'] .branchSequence li::before {
+  z-index: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.branchingBoard[data-layout='split-centered'] .proposedPath > .verticalSequence li:not(:last-child)::after,
+.branchingBoard[data-layout='split-centered'] .branchSequence li:not(:last-child)::after {
+  z-index: 0;
+  top: 10px;
+  bottom: 0;
+  left: 50%;
+}
+
+.branchingBoard[data-layout='split-centered'] .nodeLabel {
+  display: inline-block;
+  z-index: 2;
+  padding-inline: 10px;
+  background: var(--bg);
+}
+
+.branchingBoard[data-layout='split-centered'] .branchDecision {
+  width: min(100%, 34rem);
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.branchingBoard[data-layout='split-centered'][data-client='mariana-forti'] .proposedPath > .verticalSequence > li:first-child {
+  padding-block: 48px;
+}
+
+.branchingBoard[data-layout='split-centered'][data-client='mariana-forti'] .proposedPath > .verticalSequence > li[data-step-id='mef'] {
+  padding-block: 42px;
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranches {
+  position: relative;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  padding-top: 24px;
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranches::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: calc(25% - 12px);
+  left: calc(25% - 12px);
+  height: 1px;
+  background: var(--accent);
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranches::after {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  width: 1px;
+  height: 24px;
+  background: var(--accent);
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranch {
+  padding-top: 18px;
+  border-top: 0;
+  text-align: center;
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranch::before {
+  top: -24px;
+  display: block;
+  height: 34px;
+}
+
+.branchingBoard[data-layout='split-centered'] .opportunityBranch::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translateX(-50%);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.branchingBoard[data-layout='split-centered'] .branchAudience {
+  margin-bottom: 8px;
+}
+
+.branchingBoard[data-layout='split-centered'] .branchSequence {
+  justify-items: center;
+}
+
+.branchingBoard[data-layout='split-centered'] .branchSequence li {
+  min-height: 62px;
+  padding-block: 16px 20px;
+}
+
+@media (max-width: 639.98px) {
+  .branchingBoard[data-layout='split-centered'] .opportunityBranches {
+    gap: 18px;
+    width: 100%;
+  }
+
+  .branchingBoard[data-layout='split-centered'] .opportunityBranches::before {
+    right: calc(25% - 4.5px);
+    left: calc(25% - 4.5px);
+  }
+
+  .branchingBoard[data-layout='split-centered'] .branchLabel {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+  }
+
+  .branchingBoard[data-layout='split-centered'] .branchAudience {
+    font-size: clamp(1.1rem, 5.5vw, 1.35rem);
+  }
+
+  .branchingBoard[data-layout='split-centered'] .branchSequence li {
+    font-size: clamp(0.95rem, 4.4vw, 1.15rem);
+    min-height: 72px;
+  }
+}
+
 /* Mobile: dos listas verticales con riel a la izquierda */
 @media (max-width: 899.98px) {
+  .branchingBoard,
+  .opportunityBranches {
+    grid-template-columns: 1fr;
+  }
+
+  .branchingBoard {
+    gap: 52px;
+  }
+
+  .opportunityBranches {
+    gap: 36px;
+  }
+
+  .opportunityBranch::before {
+    display: none;
+  }
   .steps {
     grid-template-columns: 1fr;
     border-left: 1px solid var(--line-strong);
@@ -165,5 +512,15 @@
 
   .insight {
     margin-left: 0;
+  }
+
+  .branchingBoard + .insight {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .branchingBoard + .insight h3,
+  .branchingBoard + .insight p {
+    grid-column: 1;
   }
 }

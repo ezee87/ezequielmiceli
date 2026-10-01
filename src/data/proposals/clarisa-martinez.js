@@ -35,6 +35,7 @@ export default {
   },
 
   intro: {
+    mobileMetaSplit: true,
     eyebrow: 'Propuesta web',
     pretitle: 'Una propuesta para',
     disciplines: ['Estrategia', 'Diseño', 'Desarrollo'],

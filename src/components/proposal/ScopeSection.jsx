@@ -16,9 +16,13 @@ export default function ScopeSection({ data }) {
 
       <div className={styles.areas}>
         {included.map((area) => (
-          <Fade className={styles.area} key={area.id ?? area.name}>
-            <h3 className={styles.name}>{area.name}</h3>
-            {area.layout === 'split' ? (
+          <Fade className={styles.area} data-publication={area.id === 'publication' ? '' : undefined} key={area.id ?? area.name}>
+            <div className={styles.areaHeading}>
+              <h3 className={styles.name}>{area.name}</h3>
+              {area.subtitle && <p className={styles.subtitle}>{area.subtitle}</p>}
+              {area.notesPlacement === 'heading' && area.id !== 'publication' && area.notes?.map((note) => <p className={styles.areaNote} key={note}>{note}</p>)}
+            </div>
+            {area.text ? <p className={styles.areaText}>{area.text}</p> : area.layout === 'split' ? (
               <div className={`${styles.items} ${styles.publicationItems}`}>
                 <ul>{area.items.slice(0, area.splitAt ?? Math.ceil(area.items.length / 2)).map(renderItem)}</ul>
                 <ul>{area.items.slice(area.splitAt ?? Math.ceil(area.items.length / 2)).map(renderItem)}</ul>
@@ -26,6 +30,12 @@ export default function ScopeSection({ data }) {
             ) : (
               <ul className={styles.items}>{area.items.map(renderItem)}</ul>
             )}
+            {area.id === 'publication' && area.notes?.length > 0 && (
+              <div className={styles.publicationNotes}>
+                {area.notes.map((note) => <p className={styles.areaNote} key={note}>{note}</p>)}
+              </div>
+            )}
+            {area.notesPlacement !== 'heading' && area.id !== 'publication' && area.notes?.map((note) => <p className={styles.areaNote} key={note}>{note}</p>)}
           </Fade>
         ))}
       </div>

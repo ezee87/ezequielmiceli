@@ -61,7 +61,12 @@ export default function UnderstandingSection({ data }) {
         </>
       ) : (
         <>
-          <SectionHeader id="entendimiento-title" eyebrow={eyebrow} title={title} />
+          <SectionHeader
+            id="entendimiento-title"
+            eyebrow={eyebrow}
+            title={title}
+            className={data.understanding.compact ? styles.compactHeader : ''}
+          />
 
           <div className={styles.body} data-compact={data.understanding.compact ? '' : undefined}>
             <div className={styles.text}>

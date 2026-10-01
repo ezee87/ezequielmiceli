@@ -7,7 +7,7 @@ import styles from './FinalCTA.module.css';
 
 /** Cierre minimalista con un único acento espacial (M08 en su versión CSS translúcida, sin WebGL). */
 export default function FinalCTA({ data }) {
-  const { eyebrow, title, text, buttonLabel } = data.finalCTA;
+  const { eyebrow, title, text, buttonLabel, signature } = data.finalCTA;
   const root = useRef(null);
   const scene = useRef(null);
 
@@ -34,7 +34,7 @@ export default function FinalCTA({ data }) {
   );
 
   return (
-    <Section id="proximo-paso" labelledBy="proximo-title" className={styles.section}>
+    <Section id="proximo-paso" labelledBy="proximo-title" className={styles.section} data-compact={data.finalCTA.compact ? '' : undefined}>
       <div className={styles.wrap} ref={root}>
         <div className={styles.accent} aria-hidden="true">
           <div className={styles.scene} ref={scene}>
@@ -49,9 +49,12 @@ export default function FinalCTA({ data }) {
           <h2 className={styles.title} id="proximo-title">
             <RevealText>{title}</RevealText>
           </h2>
-          <Fade as="p" className={styles.text} delay={0.2}>
-            {text}
+          <Fade className={styles.text} delay={0.2}>
+            {(Array.isArray(text) ? text : [text]).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </Fade>
+          {signature && <Fade className={styles.signature} delay={0.25}>
+            {(Array.isArray(signature) ? signature : [signature]).map((line) => <span key={line}>{line}</span>)}
+          </Fade>}
           {data.cta?.enabled !== false && (
             <Fade className={styles.action} delay={0.3}>
               <CTAButton cta={data.cta} label={buttonLabel} variant="solid" size="lg" />

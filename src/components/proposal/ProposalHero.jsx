@@ -9,7 +9,13 @@ export default function ProposalHero({ data }) {
   const root = useRef(null);
   const plane = useRef(null);
   const { client, project, date, author, intro } = data;
-  const lines = client.name.split(' ');
+  const title = intro.title ?? client.name;
+  const lines = intro.titleLines ?? (intro.title ? [intro.title] : client.name.split(' '));
+  const meta = intro.meta ?? [
+    { label: 'Proyecto', value: project.title },
+    { label: 'Fecha', value: formatDate(date) },
+    { label: 'Por', value: author.name, secondary: author.role },
+  ];
 
   useGSAP(
     () => {
@@ -19,9 +25,10 @@ export default function ProposalHero({ data }) {
         if (!motion) return;
         const q = gsap.utils.selector(root.current);
 
-        gsap
-          .timeline({ defaults: { ease: 'power3.out' } })
-          .from(q('[data-pre]'), { opacity: 0, y: 14, duration: 0.8 }, 0.05)
+        const introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        const pre = q('[data-pre]');
+        if (pre.length) introTimeline.from(pre, { opacity: 0, y: 14, duration: 0.8 }, 0.05);
+        introTimeline
           .from(q('[data-line-inner]'), { yPercent: 115, duration: 1.15, stagger: 0.1 }, 0.1)
           .from(q('[data-layer="back"]'), { opacity: 0, z: -360, duration: 1.8, ease: 'power2.out' }, 0.35)
           .from(q('[data-layer="front"]'), { opacity: 0, z: 220, duration: 1.4 }, 0.55)
@@ -66,7 +73,10 @@ export default function ProposalHero({ data }) {
       id="inicio"
       ref={root}
       aria-labelledby="hero-title"
-      style={{ '--lines': lines.length }}
+      style={{ '--lines': lines.length, '--echo-padding-top': intro.echoPaddingTop ?? '2.5rem' }}
+      data-long-title={intro.title && !intro.prominentTitle ? '' : undefined}
+      data-mobile-relaxed={intro.mobileRelaxed ? '' : undefined}
+      data-mobile-meta-split={intro.mobileMetaSplit ? '' : undefined}
     >
       <div className={styles.top} data-meta>
         <p className={styles.eyebrow}>{intro.eyebrow}</p>
@@ -86,9 +96,7 @@ export default function ProposalHero({ data }) {
           </div>
 
           <h1 className={styles.title} id="hero-title" data-layer="main">
-            <span className={styles.pre} data-pre>
-              {intro.pretitle}
-            </span>
+            {intro.pretitle && <span className={styles.pre} data-pre>{intro.pretitle}</span>}
             {lines.map((line) => (
               <span className={styles.line} key={line}>
                 <span className={styles.lineInner} data-line-inner>
@@ -105,26 +113,23 @@ export default function ProposalHero({ data }) {
       </div>
 
       <div className={styles.bottom}>
-        <dl className={styles.meta}>
-          <div data-meta>
-            <dt>Proyecto</dt>
-            <dd>{project.title}</dd>
-          </div>
-          <div data-meta>
-            <dt>Fecha</dt>
-            <dd>{formatDate(date)}</dd>
-          </div>
-          <div data-meta>
-            <dt>Por</dt>
-            <dd>
-              {author.name}
-              <span className={styles.role}>{author.role}</span>
-            </dd>
-          </div>
-        </dl>
-        <div className={styles.action} data-meta>
-          <CTAButton href="#entendimiento" label={intro.startLabel} variant="solid" size="lg" />
+        <div className={styles.footerCopy}>
+          {intro.byline && <p className={styles.byline} data-meta>{intro.byline}</p>}
+          <dl className={styles.meta}>
+          {meta.map((item) => (
+            <div data-meta key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>
+                {item.value}
+                {item.secondary && <span className={styles.role}>{item.secondary}</span>}
+              </dd>
+            </div>
+          ))}
+          </dl>
         </div>
+        {intro.startLabel && <div className={styles.action} data-meta>
+          <CTAButton href="#entendimiento" label={intro.startLabel} variant="solid" size="lg" />
+        </div>}
       </div>
     </section>
   );

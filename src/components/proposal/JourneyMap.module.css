@@ -58,6 +58,18 @@
   margin-top: clamp(30px, 4vw, 46px);
 }
 
+.map[data-deep-entry] .block:first-child .lanes {
+  margin-top: clamp(52px, 5vw, 72px);
+}
+
+.map[data-deep-entry] .block:first-child {
+  margin-bottom: clamp(22px, 2.5vw, 36px);
+}
+
+.map[data-deep-entry] .spine > li[data-journey-step='mef-consulting'] {
+  transform: translateY(-24px);
+}
+
 .lanes {
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
@@ -77,6 +89,10 @@
   justify-items: center;
   padding-top: 32px;
   text-align: center;
+}
+
+.node[data-label-only] {
+  padding-bottom: 26px;
 }
 
 .body {

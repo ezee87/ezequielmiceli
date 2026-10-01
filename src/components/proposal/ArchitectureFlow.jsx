@@ -61,6 +61,8 @@ export default function ArchitectureFlow({ sections }) {
             <p className={styles.number}>{s.number}</p>
             <h3 className={styles.name}>{s.name}</h3>
             <p className={styles.objective}>{s.objective}</p>
+            {s.description && <p className={styles.description}>{s.description}</p>}
+            {s.callout && <p className={styles.callout}>{s.callout}</p>}
             {s.subpaths?.length > 0 && (
               <ul className={styles.forks} aria-label="Caminos de este bloque">
                 {s.subpaths.map((p) => (

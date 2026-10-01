@@ -5,6 +5,47 @@ import { Fade } from '../ui/Reveal.jsx';
 import { gsap, useGSAP, MQ } from '../../utils/gsap.js';
 import styles from './OpportunitySection.module.css';
 
+function VerticalSequence({ steps, className = '' }) {
+  return (
+    <ol className={`${styles.verticalSequence} ${className}`}>
+      {steps.map((step) => (
+        <li key={step.id ?? step.label} data-step-id={step.id}>
+          <span className={styles.nodeLabel}>{step.label ?? step}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function BranchingBoard({ observed, proposed, layout, client }) {
+  return (
+    <div className={styles.branchingBoard} data-layout={layout} data-client={client}>
+      <article className={styles.currentPath}>
+        <p className={styles.pathHeading}>{observed.label}</p>
+        <VerticalSequence steps={observed.steps} />
+        {observed.note && <p className={styles.pathNote}>{observed.note}</p>}
+      </article>
+
+      <article className={styles.proposedPath}>
+        <p className={`${styles.pathHeading} ${styles.proposedHeading}`}>{proposed.label}</p>
+        <VerticalSequence steps={proposed.steps} />
+        <div className={styles.branchDecision}>
+          <p>{proposed.decision}</p>
+        </div>
+        <div className={styles.opportunityBranches}>
+          {proposed.branches.map((branch) => (
+            <section className={styles.opportunityBranch} key={branch.id ?? branch.label}>
+              <p className={styles.branchLabel}>{branch.label}</p>
+              {branch.audience && <p className={styles.branchAudience}>{branch.audience}</p>}
+              <VerticalSequence steps={branch.steps} className={styles.branchSequence} />
+            </section>
+          ))}
+        </div>
+      </article>
+    </div>
+  );
+}
+
 /**
  * Transformación: el recorrido observado se convierte en el propuesto.
  * En desktop los pasos compartidos "viajan" de una fila a la otra con el scroll (GSAP);
@@ -13,6 +54,7 @@ import styles from './OpportunitySection.module.css';
 export default function OpportunitySection({ data }) {
   const { eyebrow, title, lead, observed, proposed, insight } = data.opportunity;
   const board = useRef(null);
+  const branching = Boolean(proposed.branches?.length);
 
   const counterpartOf = (step) => observed.steps.find((o) => o.id === step.id || o.id === step.replaces);
   const newIndexes = proposed.steps.map((s, i) => (counterpartOf(s) ? -1 : i)).filter((i) => i >= 0);
@@ -22,6 +64,7 @@ export default function OpportunitySection({ data }) {
 
   useGSAP(
     () => {
+      if (branching) return undefined;
       const mm = gsap.matchMedia();
       const q = gsap.utils.selector(board.current);
 
@@ -104,7 +147,7 @@ export default function OpportunitySection({ data }) {
       });
       return () => mm.revert();
     },
-    { scope: board },
+    { scope: board, dependencies: [branching], revertOnUpdate: true },
   );
 
   const renderStep = (step, row) => {
@@ -131,7 +174,7 @@ export default function OpportunitySection({ data }) {
     <Section id="oportunidad" labelledBy="oportunidad-title">
       <SectionHeader id="oportunidad-title" eyebrow={eyebrow} title={title} lead={lead} />
 
-      <div className={styles.board} ref={board}>
+      {branching ? <BranchingBoard observed={observed} proposed={proposed} layout={data.opportunity.layout} client={data.slug} /> : <div className={styles.board} ref={board}>
         <div className={styles.row} data-row="observed">
           <p className={styles.rowLabel}>
             <span>{observed.caption}</span>
@@ -167,11 +210,12 @@ export default function OpportunitySection({ data }) {
             {proposed.steps.map((s) => renderStep(s, 'proposed'))}
           </ol>
         </div>
-      </div>
+      </div>}
 
       {insight && (
-        <Fade as="p" className={styles.insight}>
-          {insight}
+        <Fade className={`${styles.insight} ${insight.align === 'left' ? styles.insightLeft : ''}`}>
+          {insight.title && <h3>{insight.title}</h3>}
+          <p>{insight.text ?? insight}</p>
         </Fade>
       )}
     </Section>

@@ -47,6 +47,10 @@
   text-wrap: pretty;
 }
 
+.titleLine {
+  display: block;
+}
+
 .leadGroup {
   display: grid;
   gap: 0.65em;

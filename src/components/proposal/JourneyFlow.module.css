@@ -20,6 +20,18 @@
   padding-bottom: 20px;
 }
 
+.flow[data-deep-entry] > .item:first-child {
+  padding-bottom: 32px;
+}
+
+.flow[data-deep-entry] > .item:first-child + .paths {
+  padding-bottom: 28px;
+}
+
+.flow[data-deep-entry] > .item[data-step='mef-consulting'] {
+  transform: translateY(-24px);
+}
+
 .dot {
   position: absolute;
   z-index: 1;
@@ -309,6 +321,42 @@
   font-style: italic;
   line-height: 1.12;
   text-wrap: balance;
+}
+
+@media (max-width: 1023.98px) {
+  .flow[data-mobile-relaxed] .item,
+  .flow[data-mobile-relaxed] .merge {
+    padding-bottom: 28px;
+  }
+
+  .flow[data-mobile-relaxed][data-deep-entry] > .item:first-child {
+    padding-bottom: 44px;
+  }
+
+  .flow[data-mobile-relaxed][data-deep-entry] > .item:first-child + .paths {
+    padding-bottom: 42px;
+  }
+
+  .flow[data-mobile-relaxed][data-deep-entry] > .item[data-step='mef-consulting'] {
+    transform: translateY(-12px);
+  }
+
+  .flow[data-mobile-relaxed] > .item[data-step='need'] {
+    padding-bottom: 36px;
+  }
+
+  .flow[data-mobile-relaxed] .branches {
+    gap: 12px;
+  }
+
+  .flow[data-mobile-relaxed] .opt {
+    padding-top: 12px;
+    padding-bottom: 16px;
+  }
+
+  .flow[data-mobile-relaxed] .pathStep {
+    padding-bottom: 24px;
+  }
 }
 
 @media print {

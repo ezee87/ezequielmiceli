@@ -50,6 +50,38 @@
   text-wrap: pretty;
 }
 
+.includes {
+  display: grid;
+  gap: 8px;
+  max-width: 40ch;
+  margin-top: 22px;
+}
+
+.includes h3 {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.includes li {
+  position: relative;
+  padding-left: 18px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.includes li::before {
+  content: '';
+  position: absolute;
+  top: 0.7em;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: var(--accent);
+}
+
 .terms {
   display: grid;
   align-content: end;
@@ -76,6 +108,24 @@
 .terms dd {
   margin: 0;
   font-size: var(--fs-body);
+}
+
+.terms dd span {
+  display: block;
+  margin-top: 5px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.note {
+  max-width: 66ch;
+  margin-top: clamp(28px, 4vw, 44px);
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--ink-soft);
 }
 
 .extras {

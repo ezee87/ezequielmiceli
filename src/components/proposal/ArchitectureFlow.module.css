@@ -74,6 +74,22 @@
   text-wrap: pretty;
 }
 
+.description {
+  margin-top: 7px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.callout {
+  margin-top: 12px;
+  padding-left: 12px;
+  border-left: 2px solid var(--accent);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
 .forks {
   display: flex;
   flex-wrap: wrap;

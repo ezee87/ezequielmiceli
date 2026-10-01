@@ -5,7 +5,7 @@ import styles from './PricingSection.module.css';
 
 /** Inversión: un único precio. La tipografía es el evento visual. */
 export default function PricingSection({ data }) {
-  const { eyebrow, title, currency, amount, label, summary, timeline, payment, validity, extras = [], labels = {} } = data.pricing;
+  const { eyebrow, title, currency, amount, label, summary, includes = [], timeline, timelineDetail, payment, paymentDetails = [], note, validity, extras = [], labels = {} } = data.pricing;
 
   return (
     <Section id="inversion" labelledBy="inversion-title" className={styles.section}>
@@ -14,23 +14,27 @@ export default function PricingSection({ data }) {
       <div className={styles.main}>
         <div className={styles.price}>
           <p className={styles.label}>{label}</p>
-          <p className={styles.amount}>
+          {!data.pricing.hideAmount && <p className={styles.amount}>
             <span className={styles.currency}>{currency}</span>
             <RevealChars className={styles.figure}>{amount}</RevealChars>
-          </p>
-          <Fade as="p" className={styles.summary} delay={0.3}>
+          </p>}
+          <Fade as="p" className={styles.summary} delay={0.3} style={data.pricing.summaryWidth ? { maxWidth: data.pricing.summaryWidth } : undefined}>
             {summary}
           </Fade>
+          {includes.length > 0 && <div className={styles.includes}>
+            <h3>{labels.includes ?? 'Incluye'}</h3>
+            <ul>{includes.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>}
         </div>
 
         <dl className={styles.terms}>
           <Fade>
             <dt>{labels.timeline ?? 'Plazo'}</dt>
-            <dd>{timeline}</dd>
+            <dd>{timeline}{timelineDetail && <span>{timelineDetail}</span>}</dd>
           </Fade>
           <Fade delay={0.06}>
             <dt>{labels.payment ?? 'Forma de pago'}</dt>
-            <dd>{payment}</dd>
+            <dd>{payment}{paymentDetails.map((detail) => <span key={detail}>{detail}</span>)}</dd>
           </Fade>
           {validity && (
             <Fade delay={0.12}>
@@ -57,6 +61,7 @@ export default function PricingSection({ data }) {
           </ul>
         </div>
       )}
+      {note && <p className={styles.note}>{note}</p>}
     </Section>
   );
 }

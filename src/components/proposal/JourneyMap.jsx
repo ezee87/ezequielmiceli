@@ -13,10 +13,11 @@ function Node({ node, lane }) {
       className={styles.node}
       data-jn={node.id}
       data-type={isDecision ? 'decision' : node.final ? 'final' : 'step'}
+      data-label-only={lane?.labelOnly ? '' : undefined}
     >
       <span className={styles.dot} data-anchor="in" aria-hidden="true" />
       <div className={styles.body}>
-        {lane && (
+        {lane && !lane.labelOnly && (
           <span className={styles.choice}>
             {lane.audience && <small>{lane.audience}</small>}
             {lane.label}
@@ -64,7 +65,7 @@ export default function JourneyMap({ journey }) {
       if (!from || !to) return;
       const a = point(from);
       const b = point(to);
-      edges.push({ id: edge.id, from: edge.from, to: edge.to, d: curvePath(a, b) });
+      edges.push({ id: edge.id, from: edge.from, to: edge.to, d: curvePath(a, b, journey.curveTension) });
     });
 
     const next = { w: round(base.width), h: round(base.height), edges };
@@ -72,7 +73,7 @@ export default function JourneyMap({ journey }) {
       const same = prev && JSON.stringify({ ...prev, version: 0 }) === JSON.stringify({ ...next, version: 0 });
       return same ? prev : { ...next, version: (prev?.version ?? 0) + 1 };
     });
-  }, [graph]);
+  }, [graph, journey.curveTension]);
 
   useLayoutEffect(() => {
     measure();
@@ -131,7 +132,7 @@ export default function JourneyMap({ journey }) {
   const { steps } = journey;
 
   return (
-    <div className={styles.map} ref={mapRef} data-compact={journey.compact ? '' : undefined}>
+    <div className={styles.map} ref={mapRef} data-compact={journey.compact ? '' : undefined} data-deep-entry={journey.deepEntry ? '' : undefined}>
       {layout && (
         <svg
           className={styles.svg}
@@ -174,7 +175,7 @@ export default function JourneyMap({ journey }) {
               </div>
             </li>
           ) : (
-            <li key={step.id}>
+            <li key={step.id} data-journey-step={step.id}>
               <Node node={step} />
             </li>
           ),

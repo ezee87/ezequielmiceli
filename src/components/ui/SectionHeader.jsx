@@ -3,6 +3,7 @@ import styles from './SectionHeader.module.css';
 
 export default function SectionHeader({ number, eyebrow, title, lead, id, className = '' }) {
   const leadParagraphs = Array.isArray(lead) ? lead : lead ? [lead] : [];
+  const titleLines = Array.isArray(title) ? title : [title];
 
   return (
     <header className={`${styles.header} ${className}`}>
@@ -13,7 +14,7 @@ export default function SectionHeader({ number, eyebrow, title, lead, id, classN
         </p>
       ) : null}
       <h2 className={styles.title} id={id}>
-        <RevealText>{title}</RevealText>
+        {titleLines.map((line) => <RevealText className={styles.titleLine} key={line}>{line}</RevealText>)}
       </h2>
       {leadParagraphs.length > 0 ? (
         <Fade className={leadParagraphs.length > 1 ? styles.leadGroup : ''} delay={0.25}>
