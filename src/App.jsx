@@ -4,6 +4,9 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import { ScrollTrigger } from './utils/gsap.js';
 
 const PROPOSAL_ROUTE = /^\/propuesta\/([^/]+)\/?$/;
+const LEGACY_PROPOSAL_SLUGS = {
+  clarisa: 'clarisa-martinez',
+};
 
 function parseSlug(pathname) {
   const match = PROPOSAL_ROUTE.exec(pathname);
@@ -16,7 +19,14 @@ function parseSlug(pathname) {
 }
 
 export default function App() {
-  const slug = parseSlug(window.location.pathname);
+  const requestedSlug = parseSlug(window.location.pathname);
+  const slug = LEGACY_PROPOSAL_SLUGS[requestedSlug] ?? requestedSlug;
+
+  useEffect(() => {
+    if (requestedSlug && slug !== requestedSlug) {
+      window.history.replaceState(null, '', `/propuesta/${slug}${window.location.search}${window.location.hash}`);
+    }
+  }, [requestedSlug, slug]);
 
   // Al imprimir se revierten los estados animados para que el PDF muestre el contenido final.
   useEffect(() => {

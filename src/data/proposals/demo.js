@@ -19,6 +19,13 @@ export default {
     name: 'Ezequiel Miceli',
     role: 'Diseño y desarrollo web',
     monogram: 'EM',
+    footer: {
+      copyright: '© 2026 Ezequiel Miceli. Todos los derechos reservados.',
+      links: [
+        { kind: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/ezequiel-miceli' },
+        { kind: 'whatsapp', label: 'WhatsApp', href: 'http://wa.me/5492284574707' },
+      ],
+    },
   },
 
   cta: {

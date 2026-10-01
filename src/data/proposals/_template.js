@@ -33,6 +33,29 @@ export default {
     name: 'Ezequiel Miceli',
     role: 'Diseño y desarrollo web',
     monogram: 'EM',
+    footer: {
+      copyright: '© 2026 Ezequiel Miceli. Todos los derechos reservados.',
+      links: [
+        { kind: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/ezequiel-miceli' },
+        { kind: 'whatsapp', label: 'WhatsApp', href: 'https://wa.me/000000000000' },
+      ],
+    },
+  },
+
+  // Opcional: sobrescribe únicamente las etiquetas de navegación que necesiten otro nombre.
+  navigation: {
+    labels: {
+      intro: 'Portada',
+      understanding: 'Lo que entendí',
+      opportunity: 'Oportunidad',
+      journey: 'Recorrido',
+      visualDirection: 'Dirección visual',
+      architecture: 'Estructura',
+      process: 'Proceso',
+      scope: 'Alcance',
+      pricing: 'Inversión',
+      finalCTA: 'Próximo paso',
+    },
   },
 
   /**
@@ -154,7 +177,7 @@ export default {
     ],
   },
 
-  // Opcional. Con `enabled: false` se omite. Las imágenes son capturas reales.
+  // Toda sección principal admite `enabled: false`. Las imágenes son capturas reales.
   visualDirection: {
     enabled: true,
     eyebrow: 'Dirección visual',
@@ -182,7 +205,15 @@ export default {
   scope: {
     eyebrow: 'Qué incluye',
     title: 'Título de la sección',
-    areas: [{ id: 'strategy', name: 'Estrategia', enabled: true, items: ['Ítem 1', 'Ítem 2'] }],
+    areas: [
+      {
+        id: 'strategy',
+        name: 'Estrategia',
+        enabled: true,
+        // Opcional: `layout: 'split'` y `splitAt: 3` distribuyen una lista larga en dos columnas.
+        items: ['Ítem 1', 'Ítem 2'],
+      },
+    ],
   },
 
   // Un precio principal. No son planes.

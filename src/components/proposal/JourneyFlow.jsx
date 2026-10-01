@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, useGSAP, MQ } from '../../utils/gsap.js';
 import styles from './JourneyFlow.module.css';
 
-const LETTERS = ['A', 'B', 'C', 'D'];
+const branchLabel = (index) => String.fromCharCode(65 + (index % 26));
 
 function Chip({ node }) {
   if (!node.cta) return null;
@@ -53,6 +53,7 @@ function Paths({ step }) {
       <span className={styles.trunk} aria-hidden="true" />
       <ul className={styles.branches}>
         {step.branches.map((lane, i) => {
+          const letter = branchLabel(i);
           const isOpen = open === lane.id;
           const id = `${step.id}-${lane.id}`;
           return (
@@ -65,9 +66,9 @@ function Paths({ step }) {
                 aria-controls={`panel-${id}`}
                 onClick={() => setOpen(isOpen ? null : lane.id)}
               >
-                <span className={styles.letter}>{LETTERS[i]}</span>
+                <span className={styles.letter}>{letter}</span>
                 <span className={styles.optText}>
-                  <span className={styles.kind}>{lane.audience ?? `Camino ${LETTERS[i]}`}</span>
+                  <span className={styles.kind}>{lane.audience ?? `Camino ${letter}`}</span>
                   <span className={styles.optLabel}>{lane.label}</span>
                 </span>
                 <svg className={styles.chev} viewBox="0 0 12 12" aria-hidden="true" focusable="false">
@@ -113,7 +114,7 @@ function Paths({ step }) {
  */
 export default function JourneyFlow({ journey }) {
   const root = useRef(null);
-  const { steps, conversion } = journey;
+  const { steps } = journey;
   const mergeLabel = journey.convergenceLabel ?? 'Los dos recorridos vuelven a encontrarse';
 
   useGSAP(
@@ -139,7 +140,7 @@ export default function JourneyFlow({ journey }) {
   );
 
   return (
-    <ol className={styles.flow} ref={root}>
+    <ol className={styles.flow} ref={root} data-compact={journey.compact ? '' : undefined}>
       {steps.map((step) =>
         step.branches ? (
           <Fragment key={step.id}>
@@ -148,10 +149,9 @@ export default function JourneyFlow({ journey }) {
             <Merge label={mergeLabel} />
           </Fragment>
         ) : (
-          <Item key={step.id} node={step} type={step.final ? 'final' : 'step'} />
+          <Item key={step.id} node={step} type={step.final ? 'final' : 'step'} line={!step.final} />
         ),
       )}
-      <Item node={{ kind: 'Objetivo', label: conversion.label, description: conversion.description }} type="conversion" line={false} />
     </ol>
   );
 }

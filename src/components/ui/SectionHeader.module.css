@@ -40,9 +40,14 @@
 }
 
 .lead {
-  max-width: 62ch;
+  max-width: 54ch;
   font-size: var(--fs-lead);
   line-height: 1.38;
   color: var(--ink-soft);
   text-wrap: pretty;
+}
+
+.leadGroup {
+  display: grid;
+  gap: 0.65em;
 }

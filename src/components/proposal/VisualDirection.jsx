@@ -11,7 +11,14 @@ function Surface({ image, kind, label }) {
         <div className={styles.shell}>
           <div className={styles.bezel}>
             <div className={styles.viewport}>
-              <img className={styles.capture} src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+              {image.available === false ? (
+                <div className={styles.placeholder} role="img" aria-label={`${image.alt} Pendiente de incorporar.`}>
+                  <span>Mockup {label}</span>
+                  <small>Pendiente de incorporar</small>
+                </div>
+              ) : (
+                <img className={styles.capture} src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+              )}
             </div>
           </div>
         </div>

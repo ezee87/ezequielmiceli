@@ -25,7 +25,6 @@ export default function ConversionJourney({ data }) {
 
       {journey.note && (
         <Fade as="aside" className={styles.note}>
-          <span className={styles.noteLabel}>Hipótesis</span>
           <p>{journey.note}</p>
         </Fade>
       )}

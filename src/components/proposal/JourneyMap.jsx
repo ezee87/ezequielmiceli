@@ -4,7 +4,6 @@ import { buildJourneyGraph } from '../../utils/journeyGraph.js';
 import { curvePath } from '../../utils/journeyPaths.js';
 import styles from './JourneyMap.module.css';
 
-const CONVERSION_ID = '__conversion';
 const round = (n) => Math.round(n * 2) / 2;
 
 function Node({ node, lane }) {
@@ -68,23 +67,7 @@ export default function JourneyMap({ journey }) {
       edges.push({ id: edge.id, from: edge.from, to: edge.to, d: curvePath(a, b) });
     });
 
-    let exits = [];
-    let rail = null;
-    const conversionIn = find(CONVERSION_ID, 'in');
-    if (conversionIn) {
-      const c = point(conversionIn);
-      exits = graph.exits
-        .map((id) => {
-          const el = find(id, 'exit');
-          if (!el) return null;
-          const p = point(el);
-          return { id, x: p.x, y: p.y, jx: c.x, d: `M${p.x} ${p.y}L${c.x} ${p.y}` };
-        })
-        .filter(Boolean);
-      if (exits.length) rail = { from: exits[0].id, d: `M${c.x} ${exits[0].y}L${c.x} ${c.y}` };
-    }
-
-    const next = { w: round(base.width), h: round(base.height), edges, exits, rail };
+    const next = { w: round(base.width), h: round(base.height), edges };
     setLayout((prev) => {
       const same = prev && JSON.stringify({ ...prev, version: 0 }) === JSON.stringify({ ...next, version: 0 });
       return same ? prev : { ...next, version: (prev?.version ?? 0) + 1 };
@@ -134,32 +117,6 @@ export default function JourneyMap({ journey }) {
           );
         });
 
-        root.querySelectorAll('[data-exit]').forEach((group) => {
-          const trigger = find(group.dataset.exit, 'exit');
-          if (!trigger) return;
-          gsap
-            .timeline({ scrollTrigger: { trigger, start: 'top 68%', toggleActions: 'play none none reverse' } })
-            .fromTo(group.querySelector('path[data-draw]'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.out' })
-            .fromTo(group.querySelector('circle'), { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.35, ease: 'back.out(2)' }, '-=0.25');
-        });
-
-        const rail = root.querySelector('[data-rail]');
-        if (rail) {
-          const from = find(rail.dataset.from, 'exit');
-          const to = find(CONVERSION_ID, 'in');
-          if (from && to) {
-            gsap.fromTo(
-              rail,
-              { strokeDashoffset: 1 },
-              {
-                strokeDashoffset: 0,
-                ease: 'none',
-                scrollTrigger: { trigger: from, start: 'top 68%', endTrigger: to, end: 'top 68%', scrub: true },
-              },
-            );
-          }
-        }
-
         return () => {
           root.removeAttribute('data-armed');
           root.querySelectorAll('[data-active]').forEach((el) => el.removeAttribute('data-active'));
@@ -171,10 +128,10 @@ export default function JourneyMap({ journey }) {
     { scope: mapRef, dependencies: [layout?.version], revertOnUpdate: true },
   );
 
-  const { steps, conversion } = journey;
+  const { steps } = journey;
 
   return (
-    <div className={styles.map} ref={mapRef}>
+    <div className={styles.map} ref={mapRef} data-compact={journey.compact ? '' : undefined}>
       {layout && (
         <svg
           className={styles.svg}
@@ -190,14 +147,6 @@ export default function JourneyMap({ journey }) {
               <path className={styles.draw} d={e.d} pathLength="1" data-edge data-from={e.from} data-to={e.to} />
             </g>
           ))}
-          {layout.exits.map((x) => (
-            <g key={x.id} data-exit={x.id}>
-              <path className={styles.baseExit} d={x.d} />
-              <path className={styles.draw} d={x.d} pathLength="1" data-draw />
-              <circle className={styles.junction} cx={x.jx} cy={x.y} r="4.5" />
-            </g>
-          ))}
-          {layout.rail && <path className={styles.draw} d={layout.rail.d} pathLength="1" data-rail data-from={layout.rail.from} />}
         </svg>
       )}
 
@@ -231,15 +180,6 @@ export default function JourneyMap({ journey }) {
           ),
         )}
       </ol>
-
-      <div className={`${styles.node} ${styles.conv}`} data-jn={CONVERSION_ID} data-type="conversion">
-        <span className={styles.dot} data-anchor="in" aria-hidden="true" />
-        <div className={styles.body}>
-          <p className={styles.kind}>Objetivo</p>
-          <h3 className={styles.name}>{conversion.label}</h3>
-          {conversion.description && <p className={styles.desc}>{conversion.description}</p>}
-        </div>
-      </div>
     </div>
   );
 }

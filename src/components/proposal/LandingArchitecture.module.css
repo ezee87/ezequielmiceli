@@ -18,9 +18,9 @@
 
 .step {
   display: grid;
-  gap: 10px;
+  gap: 7px;
   align-content: start;
-  padding: 22px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--line);
   transition: opacity 0.5s var(--ease-out);
 }
@@ -43,8 +43,8 @@
 
 .objective {
   max-width: 46ch;
-  font-size: var(--fs-lead);
-  line-height: 1.3;
+  font-size: var(--fs-body);
+  line-height: 1.4;
   text-wrap: pretty;
 }
 
@@ -120,16 +120,20 @@
   }
 
   .steps {
-    padding-bottom: 12vh;
+    padding-bottom: 5vh;
   }
 
   .step {
-    min-height: 26vh;
+    min-height: 20vh;
     align-content: center;
   }
 
   .layout[data-armed] .step:not([data-active]) {
     opacity: 0.3;
+  }
+
+  .layout[data-armed][data-readable-inactive] .step:not([data-active]) {
+    opacity: 0.5;
   }
 
   .stageWrap {

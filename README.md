@@ -1,6 +1,6 @@
 # Sistema de propuestas comerciales
 
-React + Vite + JavaScript, CSS Modules. Cada propuesta vive en `/propuesta/:slug` y se alimenta de un único archivo de datos.
+React + Vite + JavaScript, CSS Modules. Todas las propuestas usan la misma plantilla maestra y cada cliente vive en un único archivo de datos.
 
 ## Uso
 
@@ -15,9 +15,10 @@ npm run preview  # sirve dist/
 
 ```
 src/
-  pages/            ProposalPage (resuelve el slug) y NotFoundPage
+  pages/            ProposalPage (carga los datos del slug) y NotFoundPage
   components/
-    proposal/       Secciones: Hero, Understanding, Opportunity, ConversionJourney (JourneyMap),
+    proposal/       ProposalTemplate (composición maestra) y secciones: Hero, Understanding,
+                    Opportunity, ConversionJourney (JourneyMap),
                     LandingArchitecture, VisualDirection, Process, Scope, Pricing, FinalCTA, Nav
     ui/             CTAButton, Section, SectionHeader, Reveal, DarkChapter
   data/proposals/   _template.js (documentado), demo.js y una propuesta por archivo
@@ -28,12 +29,17 @@ public/assets/proposals/<slug>/   imágenes de cada propuesta
 
 ## Crear una propuesta
 
-1. Duplicá `src/data/proposals/_template.js` como `src/data/proposals/<slug>.js`. El nombre del archivo es el slug.
-2. Completá los datos. Los archivos que empiezan con `_` no se publican.
+1. Duplicá `src/data/proposals/_template.js` como `src/data/proposals/<slug>.js`; el archivo y `data.slug` deben usar el mismo slug.
+2. Completá textos, labels, recorridos, alcance, inversión, CTA y datos de publicación.
 3. Copiá los assets a `public/assets/proposals/<slug>/` y referencialos como `/assets/proposals/<slug>/archivo.png`.
-4. Abrí `/propuesta/<slug>`.
+4. Marcá con `enabled: false` las secciones o áreas que no correspondan y usá variantes solo cuando exista una diferencia estructural real.
+5. Abrí `/propuesta/<slug>` y verificá desktop, 440 px y aproximadamente 390 px, incluidas las versiones con movimiento reducido.
+6. Ejecutá `npm run build`.
+7. Confirmá título/noindex, enlaces, CTA, imágenes y ausencia de overflow antes de compartir la URL.
 
-Las secciones con `enabled: false` (`visualDirection`, áreas de `scope`) se omiten. El CTA principal se configura en `cta` (`whatsapp`, `calendly`, `mailto`, `url` o `anchor`).
+`ProposalTemplate` define el orden, layout, navegación, movimiento, responsive, print y privacidad. Los archivos de `data/proposals/` contienen todo lo variable por cliente. Las secciones principales y las áreas de `scope` con `enabled: false` se omiten. El CTA principal se configura en `cta` (`whatsapp`, `calendly`, `mailto`, `url` o `anchor`).
+
+Clarisa es la referencia visual y consume esta misma plantilla desde `/propuesta/clarisa-martinez`. La URL histórica `/propuesta/clarisa` se reemplaza por el slug canónico en el navegador para conservar compatibilidad.
 
 ### Recorrido (`journey`)
 

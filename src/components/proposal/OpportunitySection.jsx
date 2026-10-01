@@ -23,11 +23,21 @@ export default function OpportunitySection({ data }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add({ motion: MQ.motion, wide: MQ.wide }, (ctx) => {
-        const { motion, wide } = ctx.conditions;
-        if (!motion || !wide) return;
+      const q = gsap.utils.selector(board.current);
 
-        const q = gsap.utils.selector(board.current);
+      // Mobile and reduced-motion render the final, fully visible state. Keeping
+      // this in its own media context also clears desktop timeline styles when the
+      // viewport crosses the breakpoint after the animation has been initialized.
+      mm.add('(max-width: 899.98px), (prefers-reduced-motion: reduce)', () => {
+        gsap.set(q('[data-step]'), { x: 0, y: 0 });
+        gsap.set(q('[data-label]'), { autoAlpha: 1 });
+        gsap.set(q('[data-dot]'), { scale: 1 });
+        gsap.set(q('[data-rail]'), { scaleX: 1 });
+        gsap.set(q('[data-gap]'), { autoAlpha: 1 });
+      });
+
+      mm.add(`${MQ.wide} and ${MQ.motion}`, () => {
+
         const obsEls = q('[data-row="observed"] [data-step]');
         const propEls = q('[data-row="proposed"] [data-step]');
         const offset = (el) => {

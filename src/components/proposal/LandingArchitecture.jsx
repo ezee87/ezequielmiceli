@@ -27,7 +27,7 @@ function ModuleArt({ shape = 'text' }) {
  * En pantallas angostas se usa ArchitectureFlow: una secuencia vertical en flujo normal.
  */
 export default function LandingArchitecture({ data }) {
-  const { eyebrow, title, lead, sections } = data.architecture;
+  const { eyebrow, title, lead, sections, showJourneyRefs = true, readableInactive = false } = data.architecture;
   const wide = useMediaQuery(WIDE);
   const layout = useRef(null);
   const bridge = useRef(null);
@@ -100,7 +100,7 @@ export default function LandingArchitecture({ data }) {
       <SectionHeader id="estructura-title" eyebrow={eyebrow} title={title} lead={lead} />
 
       {wide ? (
-        <div className={styles.layout} ref={layout}>
+        <div className={styles.layout} ref={layout} data-readable-inactive={readableInactive ? '' : undefined}>
           <ol className={styles.steps} ref={stepsRef}>
             {sections.map((s) => {
               const ref = s.journeyRef ? journeyLabels(s.journeyRef) : null;
@@ -126,26 +126,28 @@ export default function LandingArchitecture({ data }) {
                     </ul>
                   )}
 
-                  <dl className={styles.meta}>
-                    {ref && (
-                      <div>
-                        <dt>Responde al recorrido</dt>
-                        <dd>{ref}</dd>
-                      </div>
-                    )}
-                    {s.cta && (
-                      <div>
-                        <dt>CTA</dt>
-                        <dd>{s.cta}</dd>
-                      </div>
-                    )}
-                    {s.note && (
-                      <div>
-                        <dt>Nota</dt>
-                        <dd>{s.note}</dd>
-                      </div>
-                    )}
-                  </dl>
+                  {(showJourneyRefs && ref || s.cta || s.note) && (
+                    <dl className={styles.meta}>
+                      {showJourneyRefs && ref && (
+                        <div>
+                          <dt>Responde al recorrido</dt>
+                          <dd>{ref}</dd>
+                        </div>
+                      )}
+                      {s.cta && (
+                        <div>
+                          <dt>CTA</dt>
+                          <dd>{s.cta}</dd>
+                        </div>
+                      )}
+                      {s.note && (
+                        <div>
+                          <dt>Nota</dt>
+                          <dd>{s.note}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  )}
                 </li>
               );
             })}
