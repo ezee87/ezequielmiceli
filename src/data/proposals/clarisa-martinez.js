@@ -45,24 +45,29 @@ export default {
     eyebrow: 'Lo que entendí',
     title: 'La idea inicial evolucionó al conocer mejor tu propuesta.',
     lead: 'Una página pensada para transformar el interés que ya genera AVANZA en personas que entienden la propuesta, reconocen si es para ellas y llegan preparadas para dar el siguiente paso.',
-    development: {
-      origin: {
+    compact: true,
+    observationsCopySize: 'small',
+    observations: [
+      {
         label: 'De dónde partimos',
-        paragraphs: [
+        text: [
           'Cuando te escribí, mi primera idea fue pensar una página que ayudara a ordenar ENCONTRAR y DISEÑAR como dos recorridos diferentes.',
           'Al profundizar en tu comunicación para preparar esta propuesta, encontré en AVANZA una oportunidad más concreta para construir una herramienta que puedas utilizar hoy.',
         ],
       },
-      findings: {
+      {
         label: 'Lo que encontré',
         text: 'Al investigar más tu comunicación, AVANZA apareció como una propuesta mucho más desarrollada: tiene una problemática clara, una metodología definida, una forma de trabajo y distintos contenidos que explican la experiencia.',
       },
-      rationale: {
+      {
         label: 'Por qué este enfoque',
-        text: 'Por eso decidí desarrollar esta propuesta alrededor de AVANZA. La idea de organizar ENCONTRAR y DISEÑAR no queda descartada y podemos retomarla si más adelante tiene sentido construir una presencia digital más amplia.',
+        text: [
+          'AVANZA ya tiene una propuesta definida sobre la que podemos construir una página con un objetivo concreto: ayudar a que las personas entiendan la experiencia y lleguen mejor preparadas al siguiente paso.',
+          'ENCONTRAR y DISEÑAR pueden retomarse más adelante si tiene sentido construir una presencia digital más amplia.',
+        ],
       },
-    },
-    observations: [],
+    ],
+    showObservationsHeader: false,
     disclaimer: 'Esta es una propuesta inicial construida a partir de tu comunicación pública y de nuestra conversación. Antes de desarrollar la página, definimos juntos la información y los detalles finales.',
   },
 

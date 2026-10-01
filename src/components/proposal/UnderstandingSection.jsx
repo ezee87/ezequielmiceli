@@ -18,10 +18,16 @@ export default function UnderstandingSection({ data }) {
   } = data.understanding;
 
   const hasEditorialDevelopment = development?.origin && development?.findings && development?.rationale;
+  const hasEditorialOpening = hasEditorialDevelopment || (
+    observations.length > 0
+    && data.understanding.showObservationsHeader === false
+    && paragraphs.length === 0
+    && highlights.length === 0
+  );
 
   return (
     <Section id="entendimiento" labelledBy="entendimiento-title">
-      {hasEditorialDevelopment ? (
+      {hasEditorialOpening ? (
         <>
           <SectionHeader
             id="entendimiento-title"
@@ -31,7 +37,7 @@ export default function UnderstandingSection({ data }) {
             className={styles.opening}
           />
 
-          <div className={styles.development}>
+          {hasEditorialDevelopment && <div className={styles.development}>
             <Fade className={styles.origin}>
               <h3 className={styles.developmentLabel}>{development.origin.label}</h3>
               <div className={styles.developmentCopy}>
@@ -51,13 +57,13 @@ export default function UnderstandingSection({ data }) {
             </div>
 
             {disclaimer && <p className={`${styles.disclaimer} ${styles.editorialDisclaimer}`}>{disclaimer}</p>}
-          </div>
+          </div>}
         </>
       ) : (
         <>
           <SectionHeader id="entendimiento-title" eyebrow={eyebrow} title={title} />
 
-          <div className={styles.body}>
+          <div className={styles.body} data-compact={data.understanding.compact ? '' : undefined}>
             <div className={styles.text}>
               <Fade as="p" className={styles.lead}>
                 {lead}
@@ -83,22 +89,33 @@ export default function UnderstandingSection({ data }) {
       )}
 
       {observations.length > 0 && (
-        <div className={styles.observations}>
-          <div className={styles.obsHead}>
+        <div
+          className={styles.observations}
+          data-compact={data.understanding.compact ? '' : undefined}
+          data-copy-size={data.understanding.observationsCopySize}
+        >
+          {data.understanding.showObservationsHeader !== false && <div className={styles.obsHead}>
             <h3 className={styles.obsTitle}>{data.understanding.observationsLabel ?? 'Lo que observé'}</h3>
             <p className={styles.obsKicker}>
               {data.understanding.observationsKicker ?? `${pad(observations.length)} hallazgos que orientan esta propuesta`}
             </p>
-          </div>
-          <ol className={styles.obsList}>
+          </div>}
+          <ol className={styles.obsList} data-full={data.understanding.showObservationsHeader === false ? '' : undefined}>
             {observations.map((o, i) => (
-              <Fade as="li" key={i} className={styles.obsItem} delay={i * 0.14} y={22}>
+              <Fade as="li" key={o.label ?? i} className={styles.obsItem} delay={i * 0.14} y={22}>
                 <span className={styles.obsNumber}>{pad(i + 1)}</span>
-                <p>{o}</p>
+                <div>
+                  {o.label && <h4 className={styles.obsLabel}>{o.label}</h4>}
+                  {(Array.isArray(o.text) ? o.text : [o.text ?? o]).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
               </Fade>
             ))}
           </ol>
         </div>
+      )}
+
+      {!hasEditorialDevelopment && hasEditorialOpening && disclaimer && (
+        <p className={`${styles.disclaimer} ${styles.observationsDisclaimer}`}>{disclaimer}</p>
       )}
 
     </Section>
