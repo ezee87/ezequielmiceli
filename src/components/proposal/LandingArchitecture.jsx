@@ -1,8 +1,10 @@
 import { useMemo, useRef } from 'react';
 import Section from '../ui/Section.jsx';
 import SectionHeader from '../ui/SectionHeader.jsx';
+import ArchitectureFlow from './ArchitectureFlow.jsx';
 import { gsap, ScrollTrigger, useGSAP, MQ } from '../../utils/gsap.js';
 import { buildJourneyGraph } from '../../utils/journeyGraph.js';
+import { useMediaQuery } from '../../utils/useMediaQuery.js';
 import styles from './LandingArchitecture.module.css';
 
 const ART_BARS = { hero: 3, proof: 3, split: 2, text: 3, grid: 3, faq: 3, cta: 1, footer: 4 };
@@ -20,12 +22,13 @@ function ModuleArt({ shape = 'text' }) {
 }
 
 /**
- * M05 + M06 — Depth Stack + Sticky Build.
- * Los bloques de la landing se ensamblan en un plano CSS 3D mientras se lee cada paso (desktop);
- * en pantallas chicas la estructura es un blueprint vertical editorial.
+ * M05 + M06 — Depth Stack + Sticky Build (desktop).
+ * Los bloques de la landing se ensamblan en un plano CSS 3D mientras se lee cada paso.
+ * En pantallas angostas se usa ArchitectureFlow: una secuencia vertical en flujo normal.
  */
 export default function LandingArchitecture({ data }) {
   const { eyebrow, title, lead, sections } = data.architecture;
+  const wide = useMediaQuery(WIDE);
   const layout = useRef(null);
   const bridge = useRef(null);
   const stepsRef = useRef(null);
@@ -36,10 +39,9 @@ export default function LandingArchitecture({ data }) {
 
   useGSAP(
     () => {
+      if (!wide || !layout.current) return;
       const mm = gsap.matchMedia();
-      mm.add({ motion: MQ.motion, wide: WIDE }, (ctx) => {
-        const { motion, wide } = ctx.conditions;
-        if (!motion) return;
+      mm.add(MQ.motion, () => {
         const root = layout.current;
         const q = gsap.utils.selector(root);
 
@@ -53,8 +55,6 @@ export default function LandingArchitecture({ data }) {
           },
         );
 
-        if (!wide) return;
-
         const mods = q('[data-module]');
         const steps = q('[data-step]');
         root.setAttribute('data-armed', '');
@@ -64,7 +64,7 @@ export default function LandingArchitecture({ data }) {
           scrollTrigger: { trigger: stepsRef.current, start: 'top 55%', end: 'bottom 60%', scrub: 0.6 },
         });
         mods.forEach((mod, i) => {
-          tl.fromTo(mod, { opacity: 0, z: 320, y: 40 }, { opacity: 1, z: 0, y: 0, duration: 0.7 }, i);
+          tl.fromTo(mod, { autoAlpha: 0, z: 320, y: 40 }, { autoAlpha: 1, z: 0, y: 0, duration: 0.7 }, i);
           for (let j = 0; j < i; j += 1) {
             tl.to(mods[j], { z: -DEPTH_STEP * (i - j), duration: 0.7, ease: 'power2.inOut' }, i);
           }
@@ -91,95 +91,99 @@ export default function LandingArchitecture({ data }) {
       });
       return () => mm.revert();
     },
-    { scope: layout },
+    { scope: layout, dependencies: [wide], revertOnUpdate: true },
   );
 
   return (
     <Section id="estructura" labelledBy="estructura-title" style={{ paddingTop: 'calc(var(--section-pad) * 0.6)' }}>
-      <span className={styles.bridge} ref={bridge} aria-hidden="true" />
+      {wide && <span className={styles.bridge} ref={bridge} aria-hidden="true" />}
       <SectionHeader id="estructura-title" eyebrow={eyebrow} title={title} lead={lead} />
 
-      <div className={styles.layout} ref={layout}>
-        <ol className={styles.steps} ref={stepsRef}>
-          {sections.map((s) => {
-            const ref = s.journeyRef ? journeyLabels(s.journeyRef) : null;
-            return (
-              <li className={styles.step} key={s.number} data-step>
-                <p className={styles.number}>{s.number}</p>
-                <h3 className={styles.name}>{s.name}</h3>
-                <p className={styles.objective}>{s.objective}</p>
-                {s.description && <p className={styles.description}>{s.description}</p>}
+      {wide ? (
+        <div className={styles.layout} ref={layout}>
+          <ol className={styles.steps} ref={stepsRef}>
+            {sections.map((s) => {
+              const ref = s.journeyRef ? journeyLabels(s.journeyRef) : null;
+              return (
+                <li className={styles.step} key={s.number} data-step>
+                  <p className={styles.number}>{s.number}</p>
+                  <h3 className={styles.name}>{s.name}</h3>
+                  <p className={styles.objective}>{s.objective}</p>
+                  {s.description && <p className={styles.description}>{s.description}</p>}
 
-                {s.subpaths?.length > 0 && (
-                  <ul className={styles.subpaths}>
-                    {s.subpaths.map((p) => (
-                      <li key={p.label}>
-                        <span className={styles.subLabel}>{p.label}</span>
-                        <ul>
-                          {p.blocks.map((b) => (
-                            <li key={b}>{b}</li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <dl className={styles.meta}>
-                  {ref && (
-                    <div>
-                      <dt>Responde al recorrido</dt>
-                      <dd>{ref}</dd>
-                    </div>
-                  )}
-                  {s.cta && (
-                    <div>
-                      <dt>CTA</dt>
-                      <dd>{s.cta}</dd>
-                    </div>
-                  )}
-                  {s.note && (
-                    <div>
-                      <dt>Nota</dt>
-                      <dd>{s.note}</dd>
-                    </div>
-                  )}
-                </dl>
-              </li>
-            );
-          })}
-        </ol>
-
-        <div className={styles.stageWrap} aria-hidden="true">
-          <div className={styles.stage}>
-            <div className={styles.stack}>
-              {sections.map((s, i) => (
-                <div
-                  className={styles.module}
-                  key={s.number}
-                  data-module
-                  style={{
-                    '--w': s.shape === 'hero' || s.subpaths?.length ? 1.5 : 1,
-                    transform: `translateZ(${-DEPTH_STEP * (sections.length - 1 - i)}px)`,
-                  }}
-                >
-                  <span className={styles.modNumber}>{s.number}</span>
-                  <span className={styles.modName}>{s.name}</span>
-                  {s.subpaths?.length > 0 ? (
-                    <span className={styles.fork}>
+                  {s.subpaths?.length > 0 && (
+                    <ul className={styles.subpaths}>
                       {s.subpaths.map((p) => (
-                        <em key={p.label}>{p.label}</em>
+                        <li key={p.label}>
+                          <span className={styles.subLabel}>{p.label}</span>
+                          <ul>
+                            {p.blocks.map((b) => (
+                              <li key={b}>{b}</li>
+                            ))}
+                          </ul>
+                        </li>
                       ))}
-                    </span>
-                  ) : (
-                    <ModuleArt shape={s.shape} />
+                    </ul>
                   )}
-                </div>
-              ))}
+
+                  <dl className={styles.meta}>
+                    {ref && (
+                      <div>
+                        <dt>Responde al recorrido</dt>
+                        <dd>{ref}</dd>
+                      </div>
+                    )}
+                    {s.cta && (
+                      <div>
+                        <dt>CTA</dt>
+                        <dd>{s.cta}</dd>
+                      </div>
+                    )}
+                    {s.note && (
+                      <div>
+                        <dt>Nota</dt>
+                        <dd>{s.note}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </li>
+              );
+            })}
+          </ol>
+
+          <div className={styles.stageWrap} aria-hidden="true">
+            <div className={styles.stage}>
+              <div className={styles.stack}>
+                {sections.map((s, i) => (
+                  <div
+                    className={styles.module}
+                    key={s.number}
+                    data-module
+                    style={{
+                      '--w': s.shape === 'hero' || s.subpaths?.length ? 1.5 : 1,
+                      '--depth': `${-DEPTH_STEP * (sections.length - 1 - i)}px`,
+                    }}
+                  >
+                    <span className={styles.modNumber}>{s.number}</span>
+                    <span className={styles.modName}>{s.name}</span>
+                    {s.subpaths?.length > 0 ? (
+                      <span className={styles.fork}>
+                        {s.subpaths.map((p) => (
+                          <em key={p.label}>{p.label}</em>
+                        ))}
+                      </span>
+                    ) : (
+                      <ModuleArt shape={s.shape} />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <ArchitectureFlow sections={sections} />
+      )}
     </Section>
   );
 }

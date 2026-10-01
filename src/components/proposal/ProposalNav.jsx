@@ -41,7 +41,7 @@ export default function ProposalNav({ data, chapters }) {
             {current}
           </span>
           <AnimatePresence>
-            {pastHero && (
+            {pastHero && data.cta?.enabled !== false && (
               <motion.div
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}

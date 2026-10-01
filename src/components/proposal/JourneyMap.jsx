@@ -1,8 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, useGSAP, MQ } from '../../utils/gsap.js';
 import { buildJourneyGraph } from '../../utils/journeyGraph.js';
-import { branchElbow, curvePath, mergeElbow } from '../../utils/journeyPaths.js';
-import { useMediaQuery } from '../../utils/useMediaQuery.js';
+import { curvePath } from '../../utils/journeyPaths.js';
 import styles from './JourneyMap.module.css';
 
 const CONVERSION_ID = '__conversion';
@@ -42,10 +41,10 @@ function Node({ node, lane }) {
 /**
  * M03 + M04 — Recorrido dibujado con ramas y convergencias.
  * El DOM es la fuente semántica; el SVG se calcula midiendo los anclajes de cada nodo.
+ * Solo desktop: en pantallas angostas se usa JourneyFlow.
  */
 export default function JourneyMap({ journey }) {
   const mapRef = useRef(null);
-  const wide = useMediaQuery('(min-width: 1024px)');
   const graph = useMemo(() => buildJourneyGraph(journey.steps), [journey.steps]);
   const [layout, setLayout] = useState(null);
 
@@ -66,10 +65,7 @@ export default function JourneyMap({ journey }) {
       if (!from || !to) return;
       const a = point(from);
       const b = point(to);
-      let d = curvePath(a, b);
-      if (!wide && edge.kind === 'branch') d = branchElbow(a, b);
-      if (!wide && edge.kind === 'merge') d = mergeElbow(a, b);
-      edges.push({ id: edge.id, from: edge.from, to: edge.to, d });
+      edges.push({ id: edge.id, from: edge.from, to: edge.to, d: curvePath(a, b) });
     });
 
     let exits = [];
@@ -77,24 +73,15 @@ export default function JourneyMap({ journey }) {
     const conversionIn = find(CONVERSION_ID, 'in');
     if (conversionIn) {
       const c = point(conversionIn);
-      if (wide) {
-        exits = graph.exits
-          .map((id) => {
-            const el = find(id, 'exit');
-            if (!el) return null;
-            const p = point(el);
-            return { id, x: p.x, y: p.y, jx: c.x, d: `M${p.x} ${p.y}L${c.x} ${p.y}` };
-          })
-          .filter(Boolean);
-        if (exits.length) rail = { from: exits[0].id, d: `M${c.x} ${exits[0].y}L${c.x} ${c.y}` };
-      } else if (graph.lastId && find(graph.lastId, 'out')) {
-        edges.push({
-          id: `${graph.lastId}>${CONVERSION_ID}`,
-          from: graph.lastId,
-          to: CONVERSION_ID,
-          d: curvePath(point(find(graph.lastId, 'out')), c),
-        });
-      }
+      exits = graph.exits
+        .map((id) => {
+          const el = find(id, 'exit');
+          if (!el) return null;
+          const p = point(el);
+          return { id, x: p.x, y: p.y, jx: c.x, d: `M${p.x} ${p.y}L${c.x} ${p.y}` };
+        })
+        .filter(Boolean);
+      if (exits.length) rail = { from: exits[0].id, d: `M${c.x} ${exits[0].y}L${c.x} ${c.y}` };
     }
 
     const next = { w: round(base.width), h: round(base.height), edges, exits, rail };
@@ -102,7 +89,7 @@ export default function JourneyMap({ journey }) {
       const same = prev && JSON.stringify({ ...prev, version: 0 }) === JSON.stringify({ ...next, version: 0 });
       return same ? prev : { ...next, version: (prev?.version ?? 0) + 1 };
     });
-  }, [graph, wide]);
+  }, [graph]);
 
   useLayoutEffect(() => {
     measure();

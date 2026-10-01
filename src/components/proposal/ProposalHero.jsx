@@ -32,8 +32,7 @@ export default function ProposalHero({ data }) {
             defaults: { ease: 'none' },
             scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
           })
-          .to(q('[data-layer="back"]'), { yPercent: 16 }, 0)
-          .to(q('[data-layer="main"]'), { yPercent: -5 }, 0)
+          .to(q('[data-layer="back"], [data-layer="main"]'), { yPercent: -5 }, 0)
           .to(q('[data-layer="front"]'), { yPercent: -30 }, 0);
 
         if (!fine) return;
@@ -78,9 +77,11 @@ export default function ProposalHero({ data }) {
 
       <div className={styles.stage}>
         <div className={styles.plane} ref={plane}>
-          <div className={styles.echo} data-layer="back" aria-hidden="true">
+          <div className={`${styles.echo} ${styles.echoNear}`} data-layer="back" aria-hidden="true">
             {lines.map((line) => (
-              <span key={line}>{line}</span>
+              <span className={styles.line} key={line}>
+                <span className={styles.lineInner}>{line}</span>
+              </span>
             ))}
           </div>
 

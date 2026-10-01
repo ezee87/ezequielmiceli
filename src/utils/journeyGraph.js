@@ -41,6 +41,5 @@ export function buildJourneyGraph(steps = []) {
   });
 
   const exits = [...nodes.values()].filter((n) => n.eligibleExit).map((n) => n.id);
-  const lastId = steps.length ? steps[steps.length - 1].id : null;
-  return { nodes, edges, exits, lastId };
+  return { nodes, edges, exits };
 }

@@ -14,6 +14,7 @@ import ProcessSection from '../components/proposal/ProcessSection.jsx';
 import ScopeSection from '../components/proposal/ScopeSection.jsx';
 import PricingSection from '../components/proposal/PricingSection.jsx';
 import FinalCTA from '../components/proposal/FinalCTA.jsx';
+import ProposalFooter from '../components/proposal/ProposalFooter.jsx';
 import DarkChapter from '../components/ui/DarkChapter.jsx';
 
 function Proposal({ data }) {
@@ -64,6 +65,7 @@ function Proposal({ data }) {
           <FinalCTA data={data} />
         </DarkChapter>
       </main>
+      <ProposalFooter />
     </>
   );
 }

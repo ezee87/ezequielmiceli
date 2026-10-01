@@ -16,7 +16,9 @@ export default function OpportunitySection({ data }) {
 
   const counterpartOf = (step) => observed.steps.find((o) => o.id === step.id || o.id === step.replaces);
   const newIndexes = proposed.steps.map((s, i) => (counterpartOf(s) ? -1 : i)).filter((i) => i >= 0);
-  const gap = newIndexes.length ? { start: newIndexes[0] + 1, count: newIndexes.length } : null;
+  const gap = newIndexes.length
+    ? { start: newIndexes[0] + 1, span: Math.max(1, newIndexes.at(-1) - newIndexes[0]) }
+    : null;
 
   useGSAP(
     () => {
@@ -147,7 +149,7 @@ export default function OpportunitySection({ data }) {
                 className={styles.gap}
                 data-gap
                 aria-hidden="true"
-                style={{ gridColumn: `${gap.start} / span ${gap.count}` }}
+                style={{ gridColumn: `${gap.start} / span ${gap.span}` }}
               >
                 {proposed.gapLabel ?? 'Etapas que hoy faltan'}
               </li>

@@ -1,0 +1,110 @@
+.flow {
+  display: grid;
+  margin-top: var(--head-gap);
+  min-width: 0;
+}
+
+.block {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 12px;
+  padding-bottom: 14px;
+}
+
+.block:last-child {
+  padding-bottom: 0;
+}
+
+.rail {
+  position: relative;
+}
+
+.dot {
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  left: 6.5px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.conn {
+  position: absolute;
+  top: 29px;
+  bottom: -14px;
+  left: 11.25px;
+  width: 1.5px;
+  background: var(--accent);
+}
+
+.slab {
+  min-width: 0;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  transition:
+    border-color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out);
+}
+
+.number {
+  margin-bottom: 6px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.objective {
+  margin-top: 6px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.forks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.forks li {
+  padding: 4px 8px;
+  border: 1px solid var(--accent);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Con movimiento: el bloque leído se resalta y los anteriores se simplifican */
+.flow[data-armed] .block:not([data-current]) .objective {
+  color: var(--ink-soft);
+}
+
+.flow[data-armed] .block[data-current] .slab {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+}
+
+@media print {
+  .slab {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+}

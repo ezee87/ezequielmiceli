@@ -49,15 +49,6 @@
   margin-top: 4px;
 }
 
-.signature {
-  position: relative;
-  z-index: 1;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  font-size: var(--fs-small);
-  color: var(--ink-soft);
-}
-
 /* Acento espacial: tres planos translúcidos con perspectiva, detrás del texto */
 .accent {
   position: absolute;
@@ -111,12 +102,16 @@
 
 @media (max-width: 899.98px) {
   .accent {
-    width: 70%;
-    opacity: 0.55;
+    display: none;
   }
 
-  .scene {
-    transform: rotateY(-18deg) rotateX(2deg);
+  .wrap {
+    min-height: 0;
+    gap: 40px;
+  }
+
+  .section {
+    padding-top: calc(var(--section-pad) * 1.35);
   }
 }
 

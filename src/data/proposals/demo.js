@@ -295,14 +295,13 @@ export default {
 
   visualDirection: {
     enabled: true,
-    eyebrow: 'Dirección visual',
-    title: 'Un criterio visual con ejecución real detrás.',
-    lead: 'Para este proyecto propongo una dirección editorial: tipografía protagonista, poco color y fotografía de obra como elemento central. Para mostrar cómo se ve esa ejecución, uso una landing ya desarrollada.',
+    eyebrow: 'Primera dirección',
+    title: 'Una primera dirección para tu página.',
+    lead: 'Una vista inicial de cómo la dirección editorial puede convertirse en una experiencia real, tanto en desktop como en mobile.',
     reference: {
-      label: 'Trabajo previo',
-      title: 'Landing de Oscar',
-      note: 'Captura de una landing real desarrollada previamente. Se muestra únicamente como referencia de ejecución visual; no pertenece a este proyecto ni a su marca.',
-      relatesTo: { number: '01', name: 'Hero' },
+      label: 'Demostración visual',
+      title: 'Una página que se puede recorrer.',
+      note: 'En una propuesta real, este espacio contiene capturas y mockups preparados específicamente para el proyecto. Las imágenes actuales se usan solo como assets de demostración.',
     },
     desktop: {
       src: '/assets/proposals/demo/oscar-desktop.png',

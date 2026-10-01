@@ -7,7 +7,7 @@ import styles from './FinalCTA.module.css';
 
 /** Cierre minimalista con un único acento espacial (M08 en su versión CSS translúcida, sin WebGL). */
 export default function FinalCTA({ data }) {
-  const { eyebrow, title, text, buttonLabel, signature } = data.finalCTA;
+  const { eyebrow, title, text, buttonLabel } = data.finalCTA;
   const root = useRef(null);
   const scene = useRef(null);
 
@@ -52,12 +52,12 @@ export default function FinalCTA({ data }) {
           <Fade as="p" className={styles.text} delay={0.2}>
             {text}
           </Fade>
-          <Fade className={styles.action} delay={0.3}>
-            <CTAButton cta={data.cta} label={buttonLabel} variant="solid" size="lg" />
-          </Fade>
+          {data.cta?.enabled !== false && (
+            <Fade className={styles.action} delay={0.3}>
+              <CTAButton cta={data.cta} label={buttonLabel} variant="solid" size="lg" />
+            </Fade>
+          )}
         </div>
-
-        <p className={styles.signature}>{signature}</p>
       </div>
     </Section>
   );

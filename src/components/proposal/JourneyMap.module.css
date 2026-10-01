@@ -185,7 +185,7 @@
   height: 1px;
 }
 
-/* Conversión: carril lateral en desktop */
+/* Conversión: carril lateral */
 .conv {
   position: absolute;
   right: 0;
@@ -205,66 +205,6 @@
 .map[data-armed] .node:not([data-active]) .dot {
   background: var(--bg);
   border-color: var(--line-strong);
-}
-
-/* Layout vertical (tablet y mobile) */
-@media (max-width: 1023.98px) {
-  .map {
-    padding: 0;
-  }
-
-  .spine {
-    gap: 32px;
-  }
-
-  .node {
-    justify-items: start;
-    padding: 0 0 0 36px;
-    text-align: left;
-  }
-
-  .body {
-    justify-items: start;
-    max-width: 52ch;
-  }
-
-  .dot {
-    top: 5px;
-    left: 0;
-    margin-left: 0;
-  }
-
-  .node[data-type='final'] .dot,
-  .node[data-type='conversion'] .dot {
-    top: 3px;
-    margin-left: -2px;
-  }
-
-  .out {
-    top: 11px;
-    bottom: auto;
-    left: 6px;
-  }
-
-  .lanes {
-    grid-template-columns: 1fr;
-    row-gap: 32px;
-    margin: 32px 0 0 28px;
-  }
-
-  .laneList {
-    gap: 32px;
-  }
-
-  .conv {
-    position: relative;
-    margin-top: 32px;
-    width: auto;
-  }
-
-  .chip {
-    margin-top: 12px;
-  }
 }
 
 @media print {
