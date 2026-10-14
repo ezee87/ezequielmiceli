@@ -1,0 +1,45 @@
+.device {
+  position: relative;
+}
+
+.bezel {
+  padding: clamp(6px, 0.9vw, 12px);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--ink-base);
+  box-shadow: 0 30px 60px -30px rgba(22, 22, 22, 0.45);
+}
+
+.mobile .bezel {
+  padding: 6px;
+  border-radius: 28px;
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1b1a44;
+}
+
+.mobile .screen {
+  border-radius: 22px;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.base {
+  width: 34%;
+  height: 10px;
+  margin: 0 auto;
+  border-radius: 0 0 10px 10px;
+  background: var(--line-strong);
+}

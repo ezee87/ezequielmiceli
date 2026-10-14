@@ -1,0 +1,30 @@
+.concept {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 24px;
+  padding: 10px var(--c-gutter);
+  background: var(--navy-deep);
+  color: rgba(247, 245, 240, 0.82);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.concept strong {
+  color: var(--ivory);
+  font-weight: 700;
+}
+
+.concept a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--gold);
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+
+.concept :focus-visible {
+  outline-color: var(--gold);
+}

@@ -45,6 +45,13 @@ Clarisa es la referencia visual y consume esta misma plantilla desde `/propuesta
 
 Estructura serie-paralelo: un paso con `branches` es una decisión y todas sus ramas convergen en el paso siguiente. `cta: true` agrega una salida a la conversión. En desktop solo se dibuja la línea de salida de los nodos del tronco y de la última rama; en mobile el recorrido se rediseña en vertical.
 
+## Claudia Sánchez (propuesta corta + demo funcional)
+
+- `/propuesta/claudia-sanchez`: propuesta de 5 secciones (`template: 'claudia'` en `src/data/proposals/claudia-sanchez.js`). Las vistas previas de escritorio y mobile son la demo real dentro de un `iframe` (`?embed=1`).
+- `/demo/claudia-sanchez`: web funcional (`src/components/claudia/`, copy en `src/data/claudia/site.js`). El único CTA comercial es `BookingCTA`, alimentado por `BOOKING_LABEL` y `BOOKING_URL` en `src/data/claudia/booking.js`.
+- Retrato: mientras `portrait.src` sea `null` en `site.js` se muestra un placeholder marcado «FOTOGRAFÍA A INCORPORAR». Poner la foto autorizada en `public/assets/claudia-sanchez/` y completar `src`.
+- Precio, plazo, pago, revisiones y forma de responder están en `investment.commercial` (valores `null`). Solo se listan como «Pendiente de completar» en local; en cualquier otro host quedan ocultos. Completarlos antes de compartir la URL.
+
 ## Privacidad
 
 Privacidad por no descubribilidad, no autenticación: `noindex, nofollow` (meta, `robots.txt` y cabecera `X-Robots-Tag` en `vercel.json`), sin sitemap ni listados, y una ruta inexistente muestra un estado neutro que no revela qué slugs existen.

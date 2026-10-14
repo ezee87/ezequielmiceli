@@ -128,7 +128,7 @@ export default function ProposalHero({ data }) {
           </dl>
         </div>
         {intro.startLabel && <div className={styles.action} data-meta>
-          <CTAButton href="#entendimiento" label={intro.startLabel} variant="solid" size="lg" />
+          <CTAButton href={intro.startHref ?? '#entendimiento'} label={intro.startLabel} variant="solid" size="lg" />
         </div>}
       </div>
     </section>

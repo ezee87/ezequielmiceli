@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import ProposalPage from './pages/ProposalPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import { ScrollTrigger } from './utils/gsap.js';
+
+// Demos funcionales de cada cliente (/demo/<slug>). Se cargan de forma diferida: no pesan en las propuestas.
+const DEMO_ROUTE = /^\/demo\/([^/]+)\/?$/;
+const DEMOS = {
+  'claudia-sanchez': lazy(() => import('./components/claudia/ClaudiaSite.jsx')),
+};
 
 const PROPOSAL_ROUTE = /^\/propuesta\/([^/]+)\/?$/;
 const LEGACY_PROPOSAL_SLUGS = {
@@ -18,7 +24,19 @@ function parseSlug(pathname) {
   }
 }
 
+function parseDemo(pathname) {
+  const match = DEMO_ROUTE.exec(pathname);
+  if (!match) return null;
+  try {
+    const slug = decodeURIComponent(match[1]);
+    return Object.hasOwn(DEMOS, slug) ? DEMOS[slug] : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function App() {
+  const Demo = parseDemo(window.location.pathname);
   const requestedSlug = parseSlug(window.location.pathname);
   const slug = LEGACY_PROPOSAL_SLUGS[requestedSlug] ?? requestedSlug;
 
@@ -43,6 +61,13 @@ export default function App() {
     };
   }, []);
 
+  if (Demo) {
+    return (
+      <Suspense fallback={null}>
+        <Demo />
+      </Suspense>
+    );
+  }
   if (!slug) return <NotFoundPage />;
   return <ProposalPage slug={slug} />;
 }
