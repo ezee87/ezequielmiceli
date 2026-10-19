@@ -70,6 +70,7 @@ export default function ProposalHero({ data }) {
   return (
     <section
       className={styles.hero}
+      data-proposal={data.slug}
       id="inicio"
       ref={root}
       aria-labelledby="hero-title"
@@ -95,7 +96,7 @@ export default function ProposalHero({ data }) {
             ))}
           </div>
 
-          <h1 className={styles.title} id="hero-title" data-layer="main">
+          <h1 className={styles.title} id="hero-title" data-layer="main" aria-label={title}>
             {intro.pretitle && <span className={styles.pre} data-pre>{intro.pretitle}</span>}
             {lines.map((line) => (
               <span className={styles.line} key={line}>
@@ -114,6 +115,7 @@ export default function ProposalHero({ data }) {
 
       <div className={styles.bottom}>
         <div className={styles.footerCopy}>
+          {intro.description && <p className="hero-description" data-meta>{intro.description}</p>}
           {intro.byline && <p className={styles.byline} data-meta>{intro.byline}</p>}
           <dl className={styles.meta}>
           {meta.map((item) => (

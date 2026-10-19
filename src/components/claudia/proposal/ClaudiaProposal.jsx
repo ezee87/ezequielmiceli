@@ -16,21 +16,48 @@ function Opportunity({ content }) {
   return (
     <Section id="oportunidad" labelledBy="oportunidad-title" className={styles.opportunity}>
       <SectionHeader id="oportunidad-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
-      <ol className={styles.journey} aria-label="Recorrido desde los canales de Claudia hasta la reserva">
-        {content.journey.map((step, index) => (
-          <Fade as="li" className={styles.journeyStep} delay={index * 0.08} key={step.label}>
-            <span className={styles.journeyIndex} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <p className={styles.journeyStage}>{step.stage}</p>
-            <h3>{step.label}</h3>
-            <p className={styles.journeyDetail}>{step.detail}</p>
-          </Fade>
-        ))}
-      </ol>
-      <Fade as="p" className={`${styles.note} ${styles.hypothesis}`}>
-        {content.transparency.map((line) => <span key={line}>{line}</span>)}
-      </Fade>
+      <Fade as="p" className={`${styles.note} ${styles.opportunityHighlight}`}>{content.highlight}</Fade>
     </Section>
   );
+}
+
+function SiteStructure({ content }) {
+  return <Section id="estructura" labelledBy="estructura-title" className={styles.structure}>
+    <SectionHeader id="estructura-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+    <ol className={styles.sitePages}>
+      {content.pages.map((page) => <Fade as="li" className={styles.sitePage} key={page.number}>
+        <div className={styles.sitePageIntro}>
+          <p className={styles.pageNumber}>{page.number} {page.badge && <span className={styles.newsletterBadge}>{page.badge}</span>}</p>
+          <h3>{page.title}</h3><p>{page.description}</p>
+        </div>
+        <div className={styles.sitePageDetails}>
+          <p className={styles.listTitle}>{page.listLabel}</p><EditorialList items={page.items} />
+          {page.highlight && <p className={styles.pageHighlight}>{page.highlight}</p>}
+          {page.note && <p className={`${styles.listNote} ${page.badge ? styles.inlineBreak : ''}`}>{page.note}</p>}
+        </div>
+      </Fade>) }
+    </ol>
+    <div className={styles.complementary}>
+      <p className={styles.listTitle}>{content.complementary.label}</p>
+      <p className={styles.complementaryIntro}>{content.complementary.intro}</p>
+      <div className={styles.complementaryPages}>{content.complementary.pages.map((page) => <article key={page.number}>
+        <p className={styles.pageNumber}>{page.number}</p><h3>{page.title}</h3><p>{page.description}</p>
+        {page.note && <p className={styles.listNote}>{page.note}</p>}
+      </article>)}</div>
+    </div>
+  </Section>;
+}
+
+function VisitorJourney({ content }) {
+  return <Section id="recorrido" labelledBy="recorrido-title" className={styles.visitorJourney}>
+    <SectionHeader id="recorrido-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+    <div className={styles.paths}>{content.paths.map((path) => <article className={styles.path} key={path.label}>
+      <p className={styles.pageNumber}>{path.label}</p><h3>{path.title}</h3><p>{path.description}</p>
+      <ol className={styles.pathSteps}>{path.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+      <p className={styles.pathClosing}>{path.closing}</p>
+    </article>)}</div>
+    <div className={styles.connected}><h3>{content.closingTitle}</h3><p className={styles.inlineBreak}>{content.closing}</p></div>
+  </Section>;
 }
 
 function VisualDirectionSection({ content }) {
@@ -72,7 +99,6 @@ function VisualDirectionSection({ content }) {
             ))}
           </ul>
           <p className={styles.typography}>{content.typography.map((line) => <span key={line}>{line}</span>)}</p>
-          <p className={styles.criteria}>{content.criteria.map((item) => <span key={item}>{item}</span>)}</p>
         </div>
         <p className={`${styles.note} ${styles.directionNote}`}>
           {content.disclaimer.map((line) => <span key={line}>{line}</span>)}
@@ -88,27 +114,15 @@ function EditorialList({ items }) {
 
 function PageScope({ content }) {
   return (
-    <Section id="pagina" labelledBy="pagina-title" className={styles.scope}>
-      <SectionHeader id="pagina-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
-      <ol className={styles.rows}>
-        {content.rows.map((row, index) => (
-          <Fade as="li" className={styles.row} key={row.label}>
-            <span className={styles.rowNumber} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <h3>{row.label}</h3><p>{row.text}</p>
-          </Fade>
-        ))}
-      </ol>
-      <div className={styles.architectureNotes}>
-        <p>{content.architectureNote}</p><p>{content.budgetNote}</p>
-      </div>
+    <Section id="alcance" labelledBy="alcance-title" className={styles.scope}>
+      <SectionHeader id="alcance-title" eyebrow={content.eyebrow} title={content.title} />
       <div className={styles.scopeBlock}>
-        <h3 className={styles.scopeHeading}>{content.scopeTitle}</h3>
         <div className={styles.scopeGroups}>
-          {content.scopeGroups.map((group) => (
+          {content.groups.map((group) => (
             <article className={styles.scopeGroup} key={group.title}>
               <h4>{group.title}</h4>
               <EditorialList items={group.items} />
-              {group.note && <p className={styles.listNote}>{group.note}</p>}
+              {group.note && <p className={`${styles.listNote} ${styles.inlineBreak}`}>{group.note}</p>}
             </article>
           ))}
         </div>
@@ -132,10 +146,10 @@ function PageScope({ content }) {
 }
 
 function Investment({ content }) {
-  const { price, timeline, timelineDetail, payment, paymentDetails, revisions } = content.commercial;
+  const { price, timeline, timelineDetail, payment, paymentDetails, revisions, revisionsDetail } = content.commercial;
   return (
     <Section id="inversion" labelledBy="inversion-title" className={styles.investment}>
-      <SectionHeader id="inversion-title" title={content.title} />
+      <SectionHeader id="inversion-title" eyebrow={content.eyebrow} title={content.title} />
       <div className={styles.investmentGrid}>
         <div className={styles.pricePanel}>
           <p className={styles.priceLabel}>{content.label}</p>
@@ -145,7 +159,7 @@ function Investment({ content }) {
         <dl className={styles.terms}>
           <Fade><dt>Plazo</dt><dd><strong>{timeline}</strong><span>{timelineDetail}</span></dd></Fade>
           <Fade><dt>Forma de pago</dt><dd><strong>{payment}</strong><span>{paymentDetails}</span></dd></Fade>
-          <Fade><dt>Revisiones</dt><dd><strong>{revisions}</strong></dd></Fade>
+          <Fade><dt>Revisiones</dt><dd><strong>{revisions}</strong><span>{revisionsDetail}</span></dd></Fade>
         </dl>
       </div>
     </Section>
@@ -156,7 +170,6 @@ function FinalStep({ content }) {
   return (
     <Section id="proximo-paso" labelledBy="proximo-paso-title" className={styles.finalStep}>
       <div className={styles.finalContent}>
-        <p className={styles.finalEyebrow}>{content.eyebrow}</p>
         <h2 id="proximo-paso-title"><RevealText>{content.title}</RevealText></h2>
         <Fade as="p" className={styles.finalText}>{content.text}</Fade>
         <Fade className={styles.finalAction}><CTAButton cta={content.cta} label={content.buttonLabel} variant="solid" size="lg" /></Fade>
@@ -176,8 +189,9 @@ export default function ClaudiaProposal({ data }) {
   const labels = data.navigation.labels;
   const chapters = [
     { id: 'inicio', label: labels.intro }, { id: 'oportunidad', label: labels.opportunity },
-    { id: 'direccion-visual', label: labels.visualDirection }, { id: 'pagina', label: labels.page },
-    { id: 'inversion', label: labels.investment }, { id: 'proximo-paso', label: labels.nextStep },
+    { id: 'estructura', label: labels.structure }, { id: 'recorrido', label: labels.journey },
+    { id: 'direccion-visual', label: labels.visualDirection }, { id: 'alcance', label: labels.scope },
+    { id: 'inversion', label: labels.investment },
   ];
 
   return <>
@@ -186,8 +200,10 @@ export default function ClaudiaProposal({ data }) {
     <main id="contenido">
       <ProposalHero data={data} />
       <Opportunity content={data.opportunity} />
+      <SiteStructure content={data.structure} />
+      <VisitorJourney content={data.journey} />
       <VisualDirectionSection content={data.visualDirection} />
-      <PageScope content={data.page} />
+      <PageScope content={data.scope} />
       <Investment content={data.investment} />
       <DarkChapter><FinalStep content={data.finalCTA} /></DarkChapter>
     </main>

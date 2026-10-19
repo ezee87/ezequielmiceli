@@ -147,3 +147,65 @@
   .stage { min-height: auto; }
   .finalStep { min-height: auto; }
 }
+
+/* Ajustes limitados a la propuesta de Claudia. */
+:global([data-proposal="claudia-sanchez"]) { --hero-size: clamp(4rem, 11vw, 10.5rem); height: auto; min-height: 100svh; }
+:global([data-proposal="claudia-sanchez"] [data-layer="back"]) { top: -18px; }
+:global([data-proposal="claudia-sanchez"] .hero-description) { max-width: 70ch; font-size: var(--fs-body); line-height: 1.45; color: var(--ink-soft); }
+:global([data-proposal="claudia-sanchez"] .hero-description + dl) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.opportunity :global(header) { max-width: 800px; }
+.opportunityHighlight { max-width: 740px; padding-left: 18px; border-top: 0; border-left: 2px solid var(--accent); font-size: var(--fs-body); color: var(--ink-base); }
+
+.sitePages { margin-top: clamp(28px, 4vw, 50px); border-top: 1px solid var(--line-strong); }
+.sitePage { display: grid; gap: 24px; padding: clamp(26px, 3vw, 42px) 0; border-bottom: 1px solid var(--line-strong); }
+.sitePage:last-child { border-bottom: 0; }
+.sitePageIntro, .sitePageDetails { min-width: 0; }
+.pageNumber { margin-bottom: 12px; font-size: var(--fs-label); font-weight: 700; letter-spacing: .13em; color: var(--accent); }
+.sitePage h3, .complementary h3, .path h3, .connected h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.06; }
+.sitePage h3 { max-width: 20ch; font-size: clamp(1.8rem, 2.6vw, 2.7rem); }
+.sitePageIntro > p:last-child { max-width: 54ch; margin-top: 12px; color: var(--ink-soft); line-height: 1.5; }
+.sitePageDetails .listTitle { margin-bottom: 9px; }
+.sitePageDetails .list { display: grid; gap: 7px; padding-top: 10px; }
+.sitePageDetails .list li { font-size: var(--fs-small); line-height: 1.4; }
+.newsletterBadge { display: inline-block; margin-left: 12px; padding: 5px 8px; border: 1px solid var(--accent); font-size: .68rem; letter-spacing: .08em; vertical-align: middle; }
+.pageHighlight { max-width: 59ch; margin-top: 18px; padding-left: 14px; border-left: 2px solid var(--accent); font-size: var(--fs-small); line-height: 1.5; }
+.complementary { margin-top: clamp(12px, 2vw, 28px); padding: clamp(24px, 3vw, 36px) 0; background: var(--ivory); border-top: 1px solid var(--line-strong); }
+.complementaryIntro { max-width: 70ch; line-height: 1.5; color: var(--ink-soft); }
+.complementaryPages { display: grid; gap: 26px; margin-top: 26px; }
+.complementaryPages article { position: relative; }
+.complementaryPages article::before { content: ''; position: absolute; top: 0; bottom: 0; left: -16px; width: 2px; background: var(--accent); }
+.complementary h3 { font-size: clamp(1.55rem, 2.2vw, 2.15rem); }
+.complementaryPages article > p:nth-of-type(2) { margin-top: 10px; line-height: 1.5; }
+.complementaryPages .listNote { max-width: 60ch; }
+
+.paths { display: grid; gap: clamp(36px, 5vw, 70px); margin-top: clamp(32px, 4vw, 54px); }
+.path { min-width: 0; padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.path h3 { max-width: 22ch; font-size: clamp(1.8rem, 2.6vw, 2.5rem); }
+.path > p:nth-of-type(2) { max-width: 56ch; margin-top: 15px; color: var(--ink-soft); line-height: 1.5; }
+.pathSteps { display: grid; margin: 28px 0; padding: 0; list-style: none; }
+.pathSteps li { position: relative; width: fit-content; max-width: 100%; min-width: min(100%, 250px); padding: 13px 0; border-top: 1px solid var(--line); font-size: var(--fs-label); font-weight: 700; letter-spacing: .1em; overflow-wrap: anywhere; }
+.pathSteps li:last-child { border-bottom: 1px solid var(--line); }
+.pathSteps li:not(:last-child)::after { content: '↓'; position: absolute; right: 4px; bottom: -12px; z-index: 1; padding: 0 6px; background: var(--bg); color: var(--accent); font-size: 1rem; }
+.pathClosing { max-width: 53ch; line-height: 1.5; }
+.connected { max-width: 820px; margin-top: clamp(42px, 5vw, 70px); padding-top: 25px; border-top: 1px solid var(--line-strong); }
+.connected h3 { font-size: clamp(1.8rem, 2.6vw, 2.6rem); }
+.connected p { max-width: 68ch; margin-top: 12px; color: var(--ink-soft); line-height: 1.5; }
+.inlineBreak { white-space: pre-line; }
+
+.scopeBlock { margin-top: clamp(30px, 4vw, 50px); }
+.scopeGroups { margin-top: 0; }
+
+@media (min-width: 900px) {
+  .sitePage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 90px); }
+  .complementaryPages, .paths { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .terms dd, .terms > div:last-child dd, .terms dd span { max-width: none; }
+}
+
+@media (max-width: 899.98px) {
+  :global([data-proposal="claudia-sanchez"]) { --hero-size: clamp(3rem, 17vw, 5.5rem); }
+  .sitePage { gap: 20px; }
+  .sitePageDetails .list { gap: 7px; }
+  .complementary { padding: 24px 0; background: transparent; }
+  .complementaryPages article::before { left: -10px; }
+}
