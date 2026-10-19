@@ -31,9 +31,27 @@ export default {
   },
   structure: {
     eyebrow: '02 / ESTRUCTURA DEL SITIO', title: 'Un sitio para presentar todo lo que hacés.',
-    lead: 'La página principal tendrá a Claudia Sánchez como protagonista. Desde allí, cada visitante podrá conocer tu trayectoria, explorar tus servicios y encontrar el recorrido que mejor responda a su interés.',
+    lead: [
+      'Cuando alguien ingrese a tu sitio web, encontrará una página principal donde podrá conocer tu trayectoria, tu experiencia y los servicios que ofrecés.',
+      'Desde el menú superior podrá acceder a las distintas páginas del sitio, según lo que necesite.',
+    ],
+    navigation: {
+      label: 'NAVEGACIÓN PRINCIPAL', brand: 'CLAUDIA SÁNCHEZ',
+      items: ['Inicio', 'Sobre mí', 'Servicios', 'Newsletter', 'Contacto'],
+      services: ['Para personas', 'Para empresas'],
+      title: 'Todo conectado desde un mismo sitio.',
+      description: 'Todas las páginas estarán conectadas desde el menú principal.\n«Sobre mí» llevará a una sección de Inicio, sin necesidad de crear otra página.',
+    },
     pages: [
-      { number: '01 / INICIO', title: 'Claudia Sánchez', description: 'La página principal de tu marca personal. Un espacio para conocerte, comprender tu experiencia y descubrir cómo podés ayudar a personas y organizaciones.', listLabel: 'SECCIONES INCLUIDAS', items: ['Presentación profesional y fotografía.', 'Trayectoria, experiencia y especialización.', 'Servicios para personas y empresas.', 'Enfoque y metodología de trabajo.', 'Testimonios.', 'Últimas publicaciones.', 'Opciones de contacto.'] },
+      { number: '01 / INICIO', title: 'Claudia Sánchez', description: 'La página principal de tu marca personal. Un espacio para conocerte, comprender tu experiencia y descubrir cómo podés ayudar a personas y organizaciones.', listLabel: 'ESTRUCTURA DE LA PÁGINA PRINCIPAL', sections: [
+        { label: 'PRESENTACIÓN', description: 'Tu nombre, fotografía y presentación profesional.' },
+        { label: 'SOBRE MÍ', description: 'Tu trayectoria, experiencia y especialización.' },
+        { label: 'SERVICIOS', description: 'Accesos a los servicios para personas y empresas.' },
+        { label: 'MI ENFOQUE', description: 'Tu forma de trabajar, especialización y metodología.' },
+        { label: 'TESTIMONIOS', description: 'Experiencias de personas que trabajaron con vos.' },
+        { label: 'PUBLICACIONES', description: 'Una selección de tus artículos más recientes.' },
+        { label: 'CONTACTO', description: 'Una invitación a comunicarse con vos.' },
+      ] },
       { number: '02 / PERSONAS', title: 'Servicios para personas', description: 'Una página que reúne tus servicios de acompañamiento individual, para que cada persona pueda conocer las distintas formas de trabajar con vos.', listLabel: 'SECCIONES INCLUIDAS', items: ['Presentación de los servicios.', 'Descripción de cada propuesta.', 'Enfoque de acompañamiento.', 'Testimonios.', 'Opciones de consulta.'], highlight: 'Desde el servicio correspondiente se podrá acceder a la landing específica «Diseñá el futuro de tu carrera».' },
       { number: '03 / EMPRESAS', title: 'Servicios para empresas', description: 'Un espacio orientado a organizaciones que quieran conocer tus servicios corporativos y explorar oportunidades de trabajo conjunto.', listLabel: 'SECCIONES INCLUIDAS', items: ['Presentación de los servicios corporativos.', 'Experiencia y enfoque de trabajo.', 'Testimonios o referencias disponibles.', 'Formulario de contacto por email o WhatsApp.'], highlight: 'El objetivo es facilitar una consulta directa, sin llevar a las empresas a una reserva pensada para otro servicio.' },
       { number: '04 / NEWSLETTER', badge: 'SIN CARGO ADICIONAL', title: 'Tus ideas también tendrán su propio espacio.', description: 'Crearemos una sección para reunir tus artículos y reflexiones profesionales, aprovechando el contenido que ya compartiste en LinkedIn.', listLabel: 'INCLUYE', items: ['Página principal con el listado de publicaciones.', 'Carga inicial de tus 18 artículos existentes.', 'Una página individual para cada artículo.', 'Panel de administración para crear, editar y publicar nuevos contenidos.'], highlight: 'Vas a poder publicar nuevos artículos desde un panel sencillo, sin necesidad de modificar código ni depender de un desarrollador.', note: 'El newsletter contempla la publicación de artículos en el sitio web.\nNo incluye el envío automático de correos a suscriptores.' },

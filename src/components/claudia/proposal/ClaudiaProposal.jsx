@@ -24,14 +24,31 @@ function Opportunity({ content }) {
 function SiteStructure({ content }) {
   return <Section id="estructura" labelledBy="estructura-title" className={styles.structure}>
     <SectionHeader id="estructura-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+    <div className={styles.navigationConcept} aria-label="Representación conceptual de la navegación principal">
+      <p className={styles.listTitle}>{content.navigation.label}</p>
+      <div className={styles.navigationLayout}>
+        <p className={styles.navigationBrand}>{content.navigation.brand}</p>
+        <ul className={styles.navigationItems}>
+          {content.navigation.items.map((item) => <li key={item} className={item === 'Servicios' ? styles.navigationServices : undefined}>
+            <span>{item}{item === 'Servicios' && <span className={styles.navigationCaret} aria-hidden="true"> ▾</span>}</span>
+            {item === 'Servicios' && <ul className={styles.navigationSubmenu}>{content.navigation.services.map((service) => <li key={service}>{service}</li>)}</ul>}
+          </li>)}
+        </ul>
+      </div>
+      <div className={styles.navigationExplanation}><h3>{content.navigation.title}</h3><p>{content.navigation.description}</p></div>
+    </div>
     <ol className={styles.sitePages}>
-      {content.pages.map((page) => <Fade as="li" className={styles.sitePage} key={page.number}>
+      {content.pages.map((page) => <Fade as="li" className={`${styles.sitePage} ${page.sections ? styles.homePage : ''}`} key={page.number}>
         <div className={styles.sitePageIntro}>
           <p className={styles.pageNumber}>{page.number} {page.badge && <span className={styles.newsletterBadge}>{page.badge}</span>}</p>
           <h3>{page.title}</h3><p>{page.description}</p>
         </div>
         <div className={styles.sitePageDetails}>
-          <p className={styles.listTitle}>{page.listLabel}</p><EditorialList items={page.items} />
+          <p className={styles.listTitle}>{page.listLabel}</p>
+          {page.sections ? <ol className={styles.homeSections}>{page.sections.map((section, index) => <li key={section.label}>
+            <span className={styles.homeSectionNumber}>{String(index + 1).padStart(2, '0')}</span>
+            <div><h4>{section.label}</h4><p>{section.description}</p></div>
+          </li>)}</ol> : <EditorialList items={page.items} />}
           {page.highlight && <p className={styles.pageHighlight}>{page.highlight}</p>}
           {page.note && <p className={`${styles.listNote} ${page.badge ? styles.inlineBreak : ''}`}>{page.note}</p>}
         </div>
