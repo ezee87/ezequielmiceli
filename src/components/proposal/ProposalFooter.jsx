@@ -21,7 +21,7 @@ export default function ProposalFooter({ data }) {
   return (
     <footer className={styles.footer} data-atmosphere="dark">
       <div className={styles.inner}>
-        <p className={styles.name}>{data.author.name}</p>
+        {footer.showName !== false && <p className={styles.name}>{data.author.name}</p>}
 
         {footer.copyright && <p className={styles.copyright}>{footer.copyright}</p>}
 

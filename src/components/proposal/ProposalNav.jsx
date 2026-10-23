@@ -33,7 +33,8 @@ export default function ProposalNav({ data, chapters }) {
       <div className={styles.inner}>
         <a className={styles.brand} href="#inicio" aria-label="Volver al inicio de la propuesta">
           <span className={styles.monogram}>{data.author.monogram}</span>
-          <span className={styles.for}>Propuesta para {data.client.name}</span>
+          <span className={`${styles.for} ${data.navigation?.mobileTitle ? styles.forFull : ''}`}>Propuesta para {data.client.name}</span>
+          {data.navigation?.mobileTitle && <span className={`${styles.for} ${styles.forMobile}`}>{data.navigation.mobileTitle}</span>}
         </a>
 
         <div className={styles.right}>

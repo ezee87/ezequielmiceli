@@ -6,6 +6,7 @@ import ProposalTemplate from '../components/proposal/ProposalTemplate.jsx';
 // Propuestas con composición propia (p. ej. la versión corta de Claudia) se cargan de forma diferida.
 const TEMPLATES = {
   claudia: lazy(() => import('../components/claudia/proposal/ClaudiaProposal.jsx')),
+  guatiRojo: lazy(() => import('../components/guati-rojo/GuatiRojoProposal.jsx')),
 };
 
 export default function ProposalPage({ slug }) {

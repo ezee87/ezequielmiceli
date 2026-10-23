@@ -117,17 +117,17 @@ export default function ProposalHero({ data }) {
         <div className={styles.footerCopy}>
           {intro.description && <p className="hero-description" data-meta>{intro.description}</p>}
           {intro.byline && <p className={styles.byline} data-meta>{intro.byline}</p>}
-          <dl className={styles.meta}>
-          {meta.map((item) => (
-            <div data-meta key={item.label}>
-              <dt>{item.label}</dt>
-              <dd>
-                {item.value}
-                {item.secondary && <span className={styles.role}>{item.secondary}</span>}
-              </dd>
-            </div>
-          ))}
-          </dl>
+          {meta.length > 0 && <dl className={styles.meta}>
+            {meta.map((item) => (
+              <div data-meta key={item.label}>
+                <dt>{item.label}</dt>
+                <dd>
+                  {item.value}
+                  {item.secondary && <span className={styles.role}>{item.secondary}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>}
         </div>
         {intro.startLabel && <div className={styles.action} data-meta>
           <CTAButton href={intro.startHref ?? '#entendimiento'} label={intro.startLabel} variant="solid" size="lg" />
