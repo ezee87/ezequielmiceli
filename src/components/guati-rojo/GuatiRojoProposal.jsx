@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
-import '@fontsource-variable/manrope';
-import '@fontsource-variable/inter';
-import { ScrollTrigger, gsap, useGSAP, MQ } from '../../utils/gsap.js';
+import { useEffect } from 'react';
+import '@fontsource-variable/dm-sans';
+import { ScrollTrigger } from '../../utils/gsap.js';
 import { usePrivateDocument } from '../../utils/usePrivateDocument.js';
 import ProposalNav from '../proposal/ProposalNav.jsx';
 import ProposalHero from '../proposal/ProposalHero.jsx';
@@ -27,8 +26,6 @@ const scope = [
   ['01 / DISEÑO Y DESARROLLO', ['Modernización visual de la página principal y las páginas internas incluidas.', 'Diseño adaptable a computadoras, tablets y celulares.', 'Reorganización de contenidos y navegación.', 'Integración de fotografías, información institucional y áreas de práctica.', 'Optimización técnica básica para buscadores (SEO): títulos, metadescripciones, estructura de encabezados y revisión de indexación.', 'Configuración o revisión de Google Analytics y Google Search Console para verificar la medición del tráfico y el seguimiento de la presencia del sitio en Google.']],
   ['02 / CONFIGURACIÓN Y PUBLICACIÓN', ['Implementación sobre WordPress, conservando la tecnología actual.', 'Configuración y adaptación de las páginas y sus contenidos.', 'Pruebas de funcionamiento y navegación.', 'Publicación de la versión final en el sitio existente.']],
 ];
-
-const visualCriteria = ['Fotografía protagonista', 'Identidad institucional', 'Jerarquía clara', 'Navegación intuitiva', 'Diseño adaptable'];
 
 function EditorialList({ items }) {
   return <ul className={styles.list}>{items.map((item) => <li key={item}><span className={styles.listText}>{item}</span></li>)}</ul>;
@@ -58,38 +55,37 @@ function Opportunity() {
   </Section>;
 }
 
-function Mockup({ kind, label, file }) {
-  return <figure className={kind === 'desktop' ? styles.slotDesktop : styles.slotMobile}>
-    <div className={styles.device} data-kind={kind}><img className={styles.mockupImage} src={`/assets/proposals/guati-rojo/${file}`} alt={`Captura ${label.toLowerCase()} de la demo publicada de GRSS`} loading="lazy" /></div>
-    <figcaption>{label}</figcaption>
+function Mockup({ kind, number, label, file }) {
+  return <figure className={kind === 'desktop' ? styles.slotDesktop : styles.slotMobile} data-kind={kind}>
+    <img className={styles.mockupImage} src={`/assets/grss/${file}`} alt={`Captura ${label.toLowerCase()} de la demo publicada de GRSS`} loading="lazy" />
+    <figcaption><span>{number}</span> / {label}</figcaption>
   </figure>;
 }
 
 function VisualDirection({ demoHref }) {
-  const root = useRef(null);
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    mm.add({ motion: MQ.motion, wide: MQ.wide }, (ctx) => {
-      if (!ctx.conditions.motion || !ctx.conditions.wide) return;
-      const q = gsap.utils.selector(root.current);
-      gsap.fromTo(q('[data-kind="mobile"]'), { y: 22 }, { y: -16, ease: 'none', scrollTrigger: { trigger: q('[data-stage]')[0], start: 'top 85%', end: 'bottom 35%', scrub: 0.6 } });
-    });
-    return () => mm.revert();
-  }, { scope: root });
-  const palette = [['Borgoña', '#7D182B', true], ['Marfil', '#F5F2EC', false], ['Arena', '#EBE6DD', false], ['Carbón', '#252525', true]];
-  return <Section id="direccion-visual" labelledBy="direccion-title" className={styles.direction}><div ref={root}>
-    <SectionHeader id="direccion-title" eyebrow="02 / PRIMERA DIRECCIÓN VISUAL" title="Una presencia institucional a la altura de su trayectoria." lead={[
-      'Tomamos como punto de partida la identidad de GRSS y el contenido de su sitio actual para desarrollar una propuesta visual más moderna, clara y organizada.',
-      'El diseño combina los tonos institucionales de la firma, fotografías de sus profesionales y una estructura que da mayor protagonismo a sus áreas de práctica, equipo y clientes.',
-    ]} />
-    <div className={styles.demoAction}><CTAButton href={demoHref} label="Explorar la demo interactiva" variant="solid" size="lg" target="_blank" rel="noopener noreferrer" /></div>
-    <div className={styles.stage} data-stage><Mockup kind="desktop" label="ESCRITORIO" file="guati-rojo-desktop.png" /><Mockup kind="mobile" label="MOBILE" file="guati-rojo-mobile.png" /></div>
-    <div className={styles.system}>
-      <div className={styles.paletteBlock}><p className={styles.listTitle}>PALETA VISUAL</p><ul className={styles.palette} aria-label="Paleta visual de GRSS">{palette.map(([name, code, dark]) => <li key={code} style={{ '--swatch': code, color: dark ? '#F5F2EC' : '#252525' }}><span>{name}</span><code>{code}</code></li>)}</ul></div>
-      <div className={styles.typeSystem}><p className={styles.listTitle}>TIPOGRAFÍAS DEL SITIO</p><div><strong className={styles.manrope}>Manrope</strong><span>Títulos y encabezados.</span></div><div><strong className={styles.inter}>Inter</strong><span>Textos, navegación y elementos de interfaz.</span></div></div>
-      <p className={styles.criteria}>{visualCriteria.map((item) => <span key={item}>{item}</span>)}</p>
+  const palette = [['Rojo GRSS', '#C83F42', true], ['Blanco', '#FFFFFF', false], ['Gris suave', '#F5F5F3', false], ['Grafito', '#242629', true]];
+  return <Section id="direccion-visual" labelledBy="direccion-title" className={styles.direction}><div>
+    <div className={styles.directionHero} data-stage>
+      <div className={styles.directionIntro}>
+        <SectionHeader id="direccion-title" eyebrow="02 / PRIMERA DIRECCIÓN VISUAL" title="Una presencia institucional a la altura de su trayectoria." lead={[
+          'Tomamos como punto de partida la identidad de GRSS y el contenido de su sitio actual para desarrollar una propuesta visual más moderna, clara y organizada.',
+          'El diseño combina los tonos institucionales de la firma, fotografías de sus profesionales y una estructura que da mayor protagonismo a sus áreas de práctica, equipo y clientes.',
+        ]} />
+        <div className={styles.demoAction}><CTAButton href={demoHref} label="Explorar la demo interactiva" variant="solid" size="lg" target="_blank" rel="noopener noreferrer" /></div>
+      </div>
+      <Mockup kind="desktop" number="01" label="VERSIÓN DE ESCRITORIO" file="mockup_desktop.png" />
+      <div className={styles.directionBottom}>
+        <Mockup kind="mobile" number="02" label="VERSIÓN MÓVIL" file="mockup_mobile.png" />
+        <div className={styles.system}>
+          <div className={styles.paletteBlock}><p className={styles.listTitle}>PALETA VISUAL</p><ul className={styles.palette} aria-label="Paleta visual de GRSS">{palette.map(([name, code]) => <li key={code}><span className={styles.swatch} style={{ '--swatch': code }} aria-hidden="true" /><strong>{name}</strong><code>{code}</code></li>)}</ul></div>
+          <div className={styles.typeSystem}><p className={styles.listTitle}>TIPOGRAFÍAS DEL SITIO</p><div><strong className={styles.instrumentSerif}>Instrument Serif</strong><span>Títulos y encabezados.</span></div><div><strong className={styles.dmSans}>DM Sans</strong><span>Textos, navegación y elementos de interfaz.</span></div></div>
+        </div>
+      </div>
     </div>
-    <aside className={styles.disclaimer}><strong>Aclaración importante</strong><div><p>Esta demo es una primera dirección visual, creada para mostrar cómo podría verse la imagen renovada de GRSS. No representa una versión definitiva del sitio: los textos, imágenes, secciones y su organización podrán modificarse y ajustarse en conjunto durante el desarrollo.</p><p>Por este motivo, la demo presenta únicamente la página de Inicio.</p><p>Las fotografías utilizadas provienen del sitio actual de la firma y fueron retocadas para esta demo. Para la versión definitiva, recomendamos realizar una nueva sesión fotográfica del equipo y sus instalaciones.</p></div></aside>
+    <aside className={styles.disclaimer}>
+      <div><strong>SOBRE ESTA PROPUESTA VISUAL</strong><p>Esta demo es una primera dirección visual, creada para mostrar cómo podría verse la imagen renovada de GRSS. No representa una versión definitiva del sitio: los textos, imágenes, secciones y su organización podrán modificarse y ajustarse en conjunto durante el desarrollo.</p><p>Por este motivo, la demo presenta únicamente la página de Inicio.</p></div>
+      <div><strong>FOTOGRAFÍA PARA LA VERSIÓN DEFINITIVA</strong><p>Las fotografías utilizadas provienen del sitio actual de la firma y fueron retocadas para esta demo. Para la versión definitiva, recomendamos realizar una nueva sesión fotográfica del equipo y sus instalaciones.</p></div>
+    </aside>
   </div></Section>;
 }
 
@@ -137,6 +133,7 @@ function Closing() {
 export default function GuatiRojoProposal({ data }) {
   usePrivateDocument(`Propuesta para ${data.client.name} — ${data.author.name}`);
   useEffect(() => { const refresh = () => ScrollTrigger.refresh(); document.fonts?.ready.then(refresh); window.addEventListener('load', refresh); return () => window.removeEventListener('load', refresh); }, []);
-  const chapters = [{ id: 'inicio', label: 'Portada' }, { id: 'oportunidad', label: 'La oportunidad' }, { id: 'direccion-visual', label: 'Dirección visual' }, { id: 'sitio', label: 'El sitio' }, { id: 'alcance', label: 'Alcance' }, { id: 'inversion', label: 'Inversión' }];
-  return <><a className="skip-link" href="#contenido" data-print="hide">Saltar al contenido</a><ProposalNav data={data} chapters={chapters} /><main id="contenido" className={styles.page}><div className={styles.heroSurface}><ProposalHero data={data} /></div><Opportunity /><VisualDirection demoHref={data.demoHref} /><SiteArchitecture /><Scope /><Investment /><Closing /></main><div className={styles.guatiFooter}><ProposalFooter data={data} /></div></>;
+  const showInvestment = data.investment?.enabled !== false;
+  const chapters = [{ id: 'inicio', label: 'Portada' }, { id: 'oportunidad', label: 'La oportunidad' }, { id: 'direccion-visual', label: 'Dirección visual' }, { id: 'sitio', label: 'El sitio' }, { id: 'alcance', label: 'Alcance' }, ...(showInvestment ? [{ id: 'inversion', label: 'Inversión' }] : [])];
+  return <><a className="skip-link" href="#contenido" data-print="hide">Saltar al contenido</a><ProposalNav data={data} chapters={chapters} /><main id="contenido" className={styles.page}><div className={styles.heroSurface}><ProposalHero data={data} /></div><Opportunity /><VisualDirection demoHref={data.demoHref} /><SiteArchitecture /><Scope />{showInvestment && <Investment />}<Closing /></main><div className={styles.guatiFooter}><ProposalFooter data={data} /></div></>;
 }

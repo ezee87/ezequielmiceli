@@ -9,6 +9,7 @@ export default {
     footer: { showName: false, copyright: '© 2026 Ezequiel Miceli.\nTodos los derechos reservados.' },
   },
   cta: { enabled: false },
+  investment: { enabled: false },
   navigation: { mobileTitle: 'Propuesta para Guati Rojo' },
   intro: {
     eyebrow: 'PROPUESTA DE DESARROLLO WEB', title: 'Guati Rojo Abogados',
