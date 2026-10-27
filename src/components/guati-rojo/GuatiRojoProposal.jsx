@@ -57,13 +57,13 @@ function Opportunity() {
 
 function Mockup({ kind, number, label, file }) {
   return <figure className={kind === 'desktop' ? styles.slotDesktop : styles.slotMobile} data-kind={kind}>
-    <img className={styles.mockupImage} src={`/assets/grss/${file}`} alt={`Captura ${label.toLowerCase()} de la demo publicada de GRSS`} loading="lazy" />
+    <img className={styles.mockupImage} src={`/assets/grss/${file}?v=${__GRSS_ASSET_VERSIONS__[file]}`} alt={`Captura ${label.toLowerCase()} de la demo publicada de GRSS`} loading="lazy" />
     <figcaption><span>{number}</span> / {label}</figcaption>
   </figure>;
 }
 
 function VisualDirection({ demoHref }) {
-  const palette = [['Rojo GRSS', '#C83F42', true], ['Blanco', '#FFFFFF', false], ['Gris suave', '#F5F5F3', false], ['Grafito', '#242629', true]];
+  const palette = [['Azul pizarra', '#0F172A', true], ['Blanco', '#FFFFFF', false], ['Gris suave', '#F5F5F3', false], ['Azul corporativo', '#0284C7', true]];
   return <Section id="direccion-visual" labelledBy="direccion-title" className={styles.direction}><div>
     <div className={styles.directionHero} data-stage>
       <div className={styles.directionIntro}>
